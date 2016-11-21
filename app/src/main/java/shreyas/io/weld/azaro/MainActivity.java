@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //on click of floating button, start new activity
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 if(currentfragment == 1){
                     //
 

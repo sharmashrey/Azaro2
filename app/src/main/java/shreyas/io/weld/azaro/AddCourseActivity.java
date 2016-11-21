@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -47,17 +48,20 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
 
     private EditText mEditCourseName;
     private EditText mEditCourseLocationView;
-    private EditText mEditCourseStartTime;
-    private EditText mEditCourseEndTime;
-    private EditText mEditCourseTimePeriod;
-    private Button mSaveButton;
-    private Button mDateTimeButton;
+    //private EditText txtDate;
+    private EditText txtTime;
+    private EditText txtEndTime;
+
+    //Button btnDatePicker;
+    Button btnStartTimePicker;
+    Button btnEndTimePicker;
+    Button btnCourseSave;
     DBHelper db;
 
-    //butopon dat tm picker
-    Button btnDatePicker, btnTimePicker;
-    EditText txtDate, txtTime;
-    private int mYear, mMonth, mDay, mHour, mMinute;
+    //In order to send date to DB
+    private int mYear, mMonth, mDay;
+    //In order to send time in DB
+    private int mHour, mMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,31 +71,19 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
         //make message text field & button object
         mEditCourseName = (EditText) findViewById(R.id.EditCourseName);
         mEditCourseLocationView = (EditText) findViewById(R.id.EditCourseLocation);
-       // mEditCourseStartTime = (EditText) findViewById(R.id.EditCourseStartTime);
-       // mEditCourseEndTime = (EditText) findViewById(R.id.EditCourseEndTime);
-       // mEditCourseTimePeriod = (EditText) findViewById(R.id.EditCourseTimePeriod);
-        mSaveButton = (Button) findViewById(R.id.save_button);
-
-
-        /*
-        TimePicker tp = (TimePicker)dialog.findViewById(R.id.timepicker1);
-        tp.setOnTimeChangedListener(myOnTimechangedListener);
-    */
-
-       /* mSaveButton.OnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DoIt(v);
-            }
-        }); */
-
+        btnCourseSave = (Button) findViewById(R.id.save_button);
         //btn dt tm pckr
-        btnDatePicker=(Button)findViewById(R.id.btn_date);
-        btnTimePicker=(Button)findViewById(R.id.btn_time);
-        txtDate=(EditText)findViewById(R.id.in_date);
+        //btnDatePicker=(Button)findViewById(R.id.btn_date);
+        //txtDate=(EditText)findViewById(R.id.in_date);
+        //btnDatePicker.setOnClickListener(this);
+
+        btnStartTimePicker=(Button)findViewById(R.id.btn_time);
         txtTime=(EditText)findViewById(R.id.in_time);
-        btnDatePicker.setOnClickListener(this);
-        btnTimePicker.setOnClickListener(this);
+        btnStartTimePicker.setOnClickListener(this);
+
+        btnEndTimePicker=(Button)findViewById(R.id.btn_end_time);
+        txtEndTime= (EditText)findViewById(R.id.in_end_time);
+        btnEndTimePicker.setOnClickListener(this);
 
 
         //   Retrieve info from other end
@@ -103,6 +95,7 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
 
     @Override
     public void onClick(View v) {
+       /*
         if (v == btnDatePicker) {
             // Get Current Date
             final Calendar c = Calendar.getInstance();
@@ -119,7 +112,9 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
-        if (v == btnTimePicker) {
+        else
+        */
+        if (v == btnStartTimePicker) {
 
             // Get Current Time
             final Calendar c = Calendar.getInstance();
@@ -133,8 +128,23 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
-
                             txtTime.setText(hourOfDay + ":" + minute);
+                        }
+                    }, mHour, mMinute, false);
+            timePickerDialog.show();
+        }else if(v == btnEndTimePicker){
+            // Get Current Time
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+                            txtEndTime.setText(hourOfDay + ":" + minute);
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();
@@ -142,17 +152,15 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
     }
 
     //When the send button is clicked
-    public void send(View v)
+    public void saveCourse(View v)
     {
         // ADD TO DATABASE
         db = new DBHelper(getApplicationContext());
-
-        Course input1= new Course();
-        input1.setCourseName( mEditCourseName.getText().toString());
-        input1.setCourseLocation( mEditCourseLocationView.getText().toString());
-      //  input1.setCourseStartTime( Integer.parseInt(mEditCourseStartTime.getText().toString()) );
-      //  input1.setCourseEndTime( Integer.parseInt(mEditCourseEndTime.getText().toString()) );
-        db.addNewCourse(input1);
+        Log.d("In Save button", " " + mEditCourseName.getText().toString());
+        Course newCourse= new Course();
+        newCourse.setCourseName( mEditCourseName.getText().toString());
+        newCourse.setCourseLocation( mEditCourseLocationView.getText().toString());
+        db.addNewCourse(newCourse);
         finish();
     }
 
