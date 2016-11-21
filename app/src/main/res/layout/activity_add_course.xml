@@ -26,37 +26,6 @@
                 android:layout_width="fill_parent">
             </EditText>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_weight="0.08"
-        android:orientation="horizontal">
-        <Button
-            android:text="SELECT DATE"
-            android:id="@+id/btn_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textAlignment="textStart"
-            android:saveEnabled="true"
-            android:layout_alignBaseline="@+id/in_date"
-            android:layout_alignBottom="@+id/in_date"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="213dp"
-            android:id="@+id/in_date"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.27"
-            android:layout_marginLeft="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/btn_date"
-            android:layout_toEndOf="@+id/btn_date" />
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -68,7 +37,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SELECT TIME"
+            android:text="Start Time"
             android:id="@+id/btn_time"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
@@ -77,6 +46,7 @@
         <EditText
             android:layout_width="213dp"
             android:id="@+id/in_time"
+            android:hint="Select time"
             android:layout_height="wrap_content"
             android:layout_weight="0.27"
             android:layout_marginLeft="11dp"
@@ -96,7 +66,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SELECT TIME"
+            android:text="End Time"
             android:id="@+id/btn_end_time"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
@@ -105,6 +75,7 @@
         <EditText
             android:layout_width="213dp"
             android:id="@+id/in_end_time"
+            android:hint="Select time"
             android:layout_height="wrap_content"
             android:layout_weight="0.27"
             android:layout_marginLeft="11dp"

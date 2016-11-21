@@ -61,7 +61,9 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
     //In order to send date to DB
     private int mYear, mMonth, mDay;
     //In order to send time in DB
-    private int mHour, mMinute;
+    private int startHour, startMinute;
+    private int endHour, endMinute;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,8 +120,8 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
 
             // Get Current Time
             final Calendar c = Calendar.getInstance();
-            mHour = c.get(Calendar.HOUR_OF_DAY);
-            mMinute = c.get(Calendar.MINUTE);
+            startHour = c.get(Calendar.HOUR_OF_DAY);
+            startMinute = c.get(Calendar.MINUTE);
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this,
@@ -130,13 +132,13 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
                                               int minute) {
                             txtTime.setText(hourOfDay + ":" + minute);
                         }
-                    }, mHour, mMinute, false);
+                    }, startHour, startMinute, false);
             timePickerDialog.show();
         }else if(v == btnEndTimePicker){
             // Get Current Time
             final Calendar c = Calendar.getInstance();
-            mHour = c.get(Calendar.HOUR_OF_DAY);
-            mMinute = c.get(Calendar.MINUTE);
+            endHour = c.get(Calendar.HOUR_OF_DAY);
+            endMinute = c.get(Calendar.MINUTE);
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                     new TimePickerDialog.OnTimeSetListener() {
@@ -146,7 +148,7 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
                                               int minute) {
                             txtEndTime.setText(hourOfDay + ":" + minute);
                         }
-                    }, mHour, mMinute, false);
+                    }, endHour, endMinute, false);
             timePickerDialog.show();
         }
     }
@@ -160,6 +162,24 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
         Course newCourse= new Course();
         newCourse.setCourseName( mEditCourseName.getText().toString());
         newCourse.setCourseLocation( mEditCourseLocationView.getText().toString());
+
+        String[] startTimeString =  txtTime.getText().toString().split(":");
+        //String startTimeString = Integer.toString(startHour)+Integer.toString(startMinute);
+        long startTime = Long.parseLong(startTimeString[0]+startTimeString[1]);
+        Log.d("In Save button", "ST " + startTime);
+        newCourse.setCourseStartTime(startTime);
+        Log.d("In Save button", " sT " + txtTime.getText().toString());
+
+
+        String[] endTimeString =  txtEndTime.getText().toString().split(":");
+        //String endTimeString = Integer.toString(endHour)+Integer.toString(endMinute);
+        long endTime = Long.parseLong(endTimeString[0]+endTimeString[1]);
+        Log.d("In Save button", "ET " + endTime);
+        newCourse.setCourseEndTime(endTime);
+        Log.d("In Save button", " eT " + txtEndTime.getText().toString());
+
+
+
         db.addNewCourse(newCourse);
         finish();
     }

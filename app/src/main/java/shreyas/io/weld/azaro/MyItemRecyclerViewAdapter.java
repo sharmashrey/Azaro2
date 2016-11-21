@@ -1,6 +1,7 @@
 package shreyas.io.weld.azaro;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.mContentView.setText(String.valueOf(mValues.get(position).getCourseTermId()));
         holder.mTitleView.setText(mValues.get(position).getCourseName());
 
+        Log.d("Courselist",":ST :"+position + mValues.get(position).getCourseStartTime());
+        Log.d("Courselist",":ET :"+position + mValues.get(position).getCourseEndTime());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
