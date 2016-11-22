@@ -8,13 +8,21 @@
             android:icon="@android:drawable/btn_star_big_on"
             android:title="DashBoard" />
         <item
-            android:id="@+id/nav_task_fragment"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Create Task" />
-        <item
             android:id="@+id/nav_course"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Course" />
+        <item
+            android:id="@+id/nav_task_fragment"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Task" />
+        <item
+            android:id="@+id/nav_assignment_fragment"
+            android:icon="@android:drawable/ic_menu_directions"
+            android:title="Assignment" />
+        <item
+            android:id="@+id/nav_exam_fragment"
+            android:icon="@android:drawable/ic_menu_compass"
+            android:title="Exam" />
         <item
             android:id="@+id/nav_project"
             android:icon="@drawable/ic_menu_send"

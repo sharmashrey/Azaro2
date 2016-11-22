@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity
                     //
 
                 }else if(currentfragment == 2){
-                    Intent myIntent = new Intent(MainActivity.this, TaskActivity.class);
+                    Intent myIntent = new Intent(MainActivity.this, AddTaskActivity.class);
                     myIntent.putExtra("key", 2); //Optional parameters
                     MainActivity.this.startActivity(myIntent);
                 }else if(currentfragment == 3){

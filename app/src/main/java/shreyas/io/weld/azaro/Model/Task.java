@@ -19,15 +19,15 @@ public class Task {
     private long taskDueDate;
     private int taskType;
 
-    public int getTaskDueTime() {
+    public long getTaskDueTime() {
         return taskDueTime;
     }
 
-    public void setTaskDueTime(int taskDueTime) {
+    public void setTaskDueTime(long taskDueTime) {
         this.taskDueTime = taskDueTime;
     }
 
-    private int taskDueTime;
+    private long taskDueTime;
 
     public int getTaskId() {
         return taskId;

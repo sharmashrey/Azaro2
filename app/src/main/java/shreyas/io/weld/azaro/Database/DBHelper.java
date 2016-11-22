@@ -11,7 +11,9 @@ package shreyas.io.weld.azaro.Database;
         import android.database.sqlite.SQLiteOpenHelper;
         import android.util.Log;
 
+        import java.text.SimpleDateFormat;
         import java.util.ArrayList;
+        import java.util.Calendar;
         import java.util.List;
 
         import shreyas.io.weld.azaro.Model.Course;
@@ -200,11 +202,30 @@ public class DBHelper  extends SQLiteOpenHelper {
         return outputTermValues;
     }
 
+    public void addNewTask(Task newTask) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBRelatedConstants.TASK_TASKCOURSEID,newTask.getTaskCourseId());
+        values.put(DBRelatedConstants.TASK_TASKNAME, newTask.getTaskName());
+        values.put(DBRelatedConstants.TASK_TASKDESCRIPTION, newTask.getTaskDescription());
+        values.put(DBRelatedConstants.TASK_TASKDUEDATE, newTask.getTaskDueDate());
+        values.put(DBRelatedConstants.TASK_TASKDUETIME, newTask.getTaskDueTime());
+        values.put(DBRelatedConstants.TASK_TYPE, newTask.getTaskType());
+
+
+        // insert row
+        long newTaskRow = db.insert(TABLE_TASKS, null, values);
+        Log.d(" New Row iD", "New row inserted  in task table : " + newTaskRow);
+
+    }
+
+
     public List<Task> getAllTasks() {
         List<Task> outputTermValues = new ArrayList<Task>();
 
         String selectQuery = "SELECT  * FROM " + TABLE_TASKS;
-        Log.e(LOG, selectQuery);
+        Log.d("get all task", selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor resultTaskValues = db.rawQuery(selectQuery, null);
