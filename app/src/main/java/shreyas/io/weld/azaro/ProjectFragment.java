@@ -66,8 +66,8 @@ public class ProjectFragment extends Fragment {
         projectsView= (RecyclerView) view.findViewById(R.id.task_list);
         noProjectsTextView = (TextView) view.findViewById(R.id.no_tasks_text);
         DBHelper dbHelper = new DBHelper(currentContext);
-        List<Project> tasksList = dbHelper.getAllProjects();
-        if(tasksList.size() > 0){
+        List<Project> projectsList = dbHelper.getAllProjects();
+        if(projectsList.size() > 0){
             projectsView.setLayoutManager(new LinearLayoutManager(currentContext));
             projectsView.setAdapter(new MyProjectRecyclerViewAdapter(dbHelper.getAllProjects(),mListener));
 

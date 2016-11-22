@@ -16,11 +16,13 @@ package shreyas.io.weld.azaro.Database;
         import java.util.Calendar;
         import java.util.List;
 
+        import shreyas.io.weld.azaro.Model.Assignment;
         import shreyas.io.weld.azaro.Model.Course;
         import shreyas.io.weld.azaro.Model.Project;
         import shreyas.io.weld.azaro.Model.Task;
         import shreyas.io.weld.azaro.Model.Term;
 
+        import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_ASSIGNMENTS;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_COURSES;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_PROJECTS;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_TASKS;
@@ -69,6 +71,52 @@ public class DBHelper  extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DBRelatedConstants.TABLE_PROJECT_PHASES_ATTACHMENTS);
         // create new tables
         onCreate(db);
+    }
+
+    public long addNewAssignment(Assignment newAssignment) {
+
+        Log.d("In DB add new assign ", " ");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //values.put(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTID, newAssignment.getAssignmentId());
+        values.put(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTCOURSEID, newAssignment.getAssignmentCourseId());
+        values.put(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTNAME, newAssignment.getAssignmentName());
+        values.put(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTDESCRIPTION, newAssignment.getAssignmentDescription());
+        values.put(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTDUEDATE, newAssignment.getAssignmentDueDate());
+        values.put(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTDUETIME, newAssignment.getAssignmentDueTime());
+
+        // insert row
+        long newAssignmentRow = db.insert(TABLE_ASSIGNMENTS, null, values);
+        Log.d(" New Row iD", "New row inserted  in Term table" + newAssignmentRow);
+        Log.d("addNewCourse","assgn id "+ newAssignment.getAssignmentId());
+        return newAssignmentRow;
+    }
+
+    public List<Assignment> getAllAssignments() {
+        List<Assignment> outputTermValues = new ArrayList<Assignment>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_ASSIGNMENTS;
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor resultAssignmentValues = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (resultAssignmentValues.moveToFirst()) {
+            do {
+                Assignment outputResult = new Assignment();
+                outputResult.setAssignmentCourseId(resultAssignmentValues.getInt(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTCOURSEID)));
+                outputResult.setAssignmentDescription(resultAssignmentValues.getString(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTDESCRIPTION)));
+                outputResult.setAssignmentDueDate(resultAssignmentValues.getInt(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTDUEDATE)));
+                outputResult.setAssignmentDueTime(resultAssignmentValues.getInt(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTDUETIME)));
+                outputResult.setAssignmentId(resultAssignmentValues.getInt(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTID)));
+                outputResult.setAssignmentName(resultAssignmentValues.getString(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTNAME)));
+                outputTermValues.add(outputResult);
+            } while (resultAssignmentValues.moveToNext());
+        }
+
+        return outputTermValues;
     }
 
     public void closeDB() {

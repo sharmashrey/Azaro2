@@ -1,13 +1,13 @@
 package shreyas.io.weld.azaro;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import shreyas.io.weld.azaro.Model.Course;
-import shreyas.io.weld.azaro.CourseFragment.OnListFragmentInteractionListener;
+
+import shreyas.io.weld.azaro.Model.Assignment;
+
 import java.util.List;
 
 /**
@@ -15,36 +15,30 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class MyAssignmentRecyclerViewAdapter extends RecyclerView.Adapter<MyAssignmentRecyclerViewAdapter.ViewHolder> {
 
-    private List<Course> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final List<Assignment> mValues;
+    private final AssignmentFragment.OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<Course> items, OnListFragmentInteractionListener listener) {
+    public MyAssignmentRecyclerViewAdapter(List<Assignment> items, AssignmentFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
-    }
-
-    public void setCourseList(List<Course> items){
-        mValues = items;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
+                .inflate(R.layout.fragment_assignment, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(String.valueOf(mValues.get(position).getCourseId()));
-        holder.mContentView.setText(String.valueOf(mValues.get(position).getCourseTermId()));
-        holder.mTitleView.setText(mValues.get(position).getCourseName());
+        holder.mIdView.setText(String.valueOf(mValues.get(position).getAssignmentId()));
+        holder.mContentView.setText(String.valueOf(mValues.get(position).getAssignmentDueDate()));
+        holder.mTitleView.setText(mValues.get(position).getAssignmentName());
 
-        Log.d("Courselist",":ST :"+position + mValues.get(position).getCourseStartTime());
-        Log.d("Courselist",":ET :"+position + mValues.get(position).getCourseEndTime());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,23 +61,19 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final TextView mIdView;
         public final TextView mContentView;
         public final TextView mTitleView;
-
-        public Course mItem;
+        public Assignment mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.course_TermId);
-            mContentView = (TextView) view.findViewById(R.id.course_Id);
-            mTitleView = (TextView) view.findViewById(R.id.course_title);
-
+            mIdView = (TextView) view.findViewById(R.id.assignment_Id);
+            mContentView = (TextView) view.findViewById(R.id.assignment_due_date);
+            mTitleView = (TextView) view.findViewById(R.id.assignment_title);
         }
-
 
         @Override
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";
-
         }
     }
 }
