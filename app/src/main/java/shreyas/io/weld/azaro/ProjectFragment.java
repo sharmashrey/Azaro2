@@ -31,14 +31,13 @@ public class ProjectFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     Context currentContext; //get current context
 
-    private RecyclerView projectsView;
-    private TextView noProjectsTextView;
+ //   private RecyclerView projectsView;
+  //  private TextView noProjectsTextView;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ProjectFragment() {
-    }
+    public ProjectFragment() {}
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
@@ -62,21 +61,24 @@ public class ProjectFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_task_list, container, false);
-        projectsView= (RecyclerView) view.findViewById(R.id.task_list);
-        noProjectsTextView = (TextView) view.findViewById(R.id.no_tasks_text);
-        DBHelper dbHelper = new DBHelper(currentContext);
-        List<Project> tasksList = dbHelper.getAllProjects();
-        if(tasksList.size() > 0){
-            projectsView.setLayoutManager(new LinearLayoutManager(currentContext));
-            projectsView.setAdapter(new MyProjectRecyclerViewAdapter(dbHelper.getAllProjects(),mListener));
+        View view = inflater.inflate(R.layout.fragment_project_list, container, false);
 
-        } else {
-            projectsView.setVisibility(View.GONE);
-            noProjectsTextView.setVisibility(View.VISIBLE);
+        // Set the adapter
+        if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
+            //if (mColumnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            //} else {
+            //    recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+            // }
+
+            DBHelper dbhelper = new DBHelper(currentContext);
+            recyclerView.setAdapter(new MyProjectRecyclerViewAdapter(dbhelper.getAllProjects(), mListener));
         }
         return view;
     }
+
 
 
     @Override

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.LoaderManager;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -12,7 +13,10 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatSpinner;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -21,77 +25,86 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import android.app.LoaderManager.LoaderCallbacks;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import shreyas.io.weld.azaro.Database.DBHelper;
+import shreyas.io.weld.azaro.Model.Course;
 import shreyas.io.weld.azaro.Model.Project;
 
 public class ProjectActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>,View.OnClickListener{
 
     private static final int REQUEST_READ_CONTACTS = 0;
     private static final String[] DUMMY_CREDENTIALS = new String[]{"foo@example.com:hello", "bar@example.com:world"};
-    private UserLoginTask mAuthTask = null;
+    private ProjectActivity.UserLoginTask mAuthTask = null;
 
-    // UI references.
-    //create variables for storing message & button objects
+    // UI references -create variables for storing message & button objects
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
-
     private EditText mEditProjectName;
-    private EditText mEditProjectDescriptionView;
-    private EditText mEditCourseStartTime;
-    private EditText mEditCourseEndTime;
-    private EditText mEditCourseTimePeriod;
-    private Button mSaveButton;
-    private Button mDateTimeButton;
+    private EditText mEditProjectDescription;
     DBHelper db;
-
-    //butopon dat tm picker
+    Button mSaveButton;
     Button btnDatePicker, btnTimePicker;
     EditText txtDate, txtTime;
     private int mYear, mMonth, mDay, mHour, mMinute;
+    private Context currentContext;
+
+    AppCompatSpinner courseSpinner;
+
+    int courseSelectedPosition = 0;
+    List<Course> courseList;
+    List<String> courseNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_course);
+        setContentView(R.layout.activity_project);
 
         //make message text field & button object
-        mEditProjectName = (EditText) findViewById(R.id.EditCourseName);
-        mEditProjectDescriptionView = (EditText) findViewById(R.id.EditCourseLocation);
-        // mEditCourseStartTime = (EditText) findViewById(R.id.EditCourseStartTime);
-        // mEditCourseEndTime = (EditText) findViewById(R.id.EditCourseEndTime);
-        // mEditCourseTimePeriod = (EditText) findViewById(R.id.EditCourseTimePeriod);
-        mSaveButton = (Button) findViewById(R.id.save_button);
-
-        /*
-        TimePicker tp = (TimePicker)dialog.findViewById(R.id.timepicker1);
-        tp.setOnTimeChangedListener(myOnTimechangedListener);
-    */
-
-       /* mSaveButton.OnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DoIt(v);
-            }
-        }); */
-
+        mEditProjectName = (EditText) findViewById(R.id.EditProjectName);
+        mEditProjectDescription = (EditText) findViewById(R.id.EditProjectDescription);
+        mSaveButton = (Button) findViewById(R.id.save_project_button);
+        courseSpinner = (AppCompatSpinner) findViewById(R.id.coursesSpinner);
         //btn dt tm pckr
-        btnDatePicker=(Button)findViewById(R.id.btn_date);
-        btnTimePicker=(Button)findViewById(R.id.btn_time);
-        txtDate=(EditText)findViewById(R.id.in_date);
-        txtTime=(EditText)findViewById(R.id.in_time);
+        btnDatePicker=(Button)findViewById(R.id.btn_project_due_date);
+        btnTimePicker=(Button)findViewById(R.id.btn_project_due_time);
+        txtDate=(EditText)findViewById(R.id.in_project_due_date);
+        txtTime=(EditText)findViewById(R.id.in_project_due_time);
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
-
-
-        //   Retrieve info from other end
-        //    Extras are retrieved on the other side via:
+        DBHelper dbHelper = new DBHelper(this);
+        currentContext = this;
+        courseList = dbHelper.getAllCourses();
+        courseNames = new ArrayList<String>();
+        for(Course course : courseList){
+            courseNames.add(course.getCourseName());
+        }
+        ArrayAdapter<String> spinadapter = new ArrayAdapter<String>(currentContext, R.layout.spinner_text, R.id.spinner_textview, courseNames);
+        //   Retrieve Extras are retrieved on the other side via:
         Intent intent = getIntent();
         String value = intent.getStringExtra("key"); //if it's a string you stored.
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+  /*      Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tasks_array, android.R.layout.select_dialog_multichoice);
+        adapter.setDropDownViewResource(android.R.);
+        spinner.setAdapter(adapter); // Apply the adapter to the spinner
+*/
+        courseSpinner.setAdapter(spinadapter);
+        courseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                courseSelectedPosition = i;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                courseSelectedPosition = 0;
+            }
+        });
+
     }
 
 
@@ -113,7 +126,7 @@ public class ProjectActivity extends AppCompatActivity implements LoaderCallback
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
-        if (v == btnTimePicker) {
+        else if (v == btnTimePicker) {
 
             // Get Current Time
             final Calendar c = Calendar.getInstance();
@@ -125,9 +138,7 @@ public class ProjectActivity extends AppCompatActivity implements LoaderCallback
                     new TimePickerDialog.OnTimeSetListener() {
 
                         @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay,
-                                              int minute) {
-
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                             txtTime.setText(hourOfDay + ":" + minute);
                         }
                     }, mHour, mMinute, false);
@@ -136,17 +147,21 @@ public class ProjectActivity extends AppCompatActivity implements LoaderCallback
     }
 
     //When the send button is clicked
-    public void send(View v)
+    public void project_save(View v)
     {
         // ADD TO DATABASE
         db = new DBHelper(getApplicationContext());
 
         Project input1= new Project();
-        input1.setProjectName ( mEditProjectName.getText().toString());
-        input1.setProjectDescription( mEditProjectDescriptionView.getText().toString());
-        //  input1.setCourseStartTime( Integer.parseInt(mEditCourseStartTime.getText().toString()) );
-        //  input1.setCourseEndTime( Integer.parseInt(mEditCourseEndTime.getText().toString()) );
-      //  db.addNewCourse(input1);
+        input1.setProjectCourseId(courseList.get(courseSelectedPosition).getCourseId());
+        input1.setProjectName  ( mEditProjectName.getText().toString());
+        input1.setProjectDescription( mEditProjectDescription.getText().toString());
+        String time = mHour+""+mMinute;
+        String date = mYear+""+mMonth+""+mDay;
+        input1.setProjectDueTime( Integer.parseInt(time) );
+        input1.setProjectDueDate( Integer.parseInt(date) );
+        Log.d("calling ", " ");
+        db.addNewProject(input1);
         finish();
     }
 
@@ -179,69 +194,21 @@ public class ProjectActivity extends AppCompatActivity implements LoaderCallback
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {/*
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+    private void showProgress(final boolean show) { }
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-   */ }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return null;
-  /*      return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-        */  }
+    }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {/*
-        List<String> emails = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
-
-        addEmailsToAutoComplete(emails);
-   */ }
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) { }
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {}
+
+
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
@@ -253,15 +220,7 @@ public class ProjectActivity extends AppCompatActivity implements LoaderCallback
     }
 
 
-    private interface ProfileQuery {/*
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;*/
-    }
+    private interface ProfileQuery { }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate

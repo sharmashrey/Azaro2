@@ -16,9 +16,9 @@ import shreyas.io.weld.azaro.Model.Project;
  */
 public class MyProjectRecyclerViewAdapter extends RecyclerView.Adapter<MyProjectRecyclerViewAdapter.ProjectViewHolder> {
     private final List<Project> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final ProjectFragment.OnListFragmentInteractionListener mListener;
 
-    public MyProjectRecyclerViewAdapter(List<Project> items, OnListFragmentInteractionListener listener) {
+    public MyProjectRecyclerViewAdapter(List<Project> items, ProjectFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -26,7 +26,7 @@ public class MyProjectRecyclerViewAdapter extends RecyclerView.Adapter<MyProject
     @Override
     public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_task_item, parent, false);
+                .inflate(R.layout.fragment_project, parent, false);
         return new ProjectViewHolder(view);
     }
 
@@ -63,9 +63,9 @@ public class MyProjectRecyclerViewAdapter extends RecyclerView.Adapter<MyProject
         public ProjectViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.project_list);
-            mContentView = (TextView) view.findViewById(R.id.task_description);
-            mTitleView = (TextView) view.findViewById(R.id.task_name);
+            mIdView = (TextView) view.findViewById(R.id.project_Id);
+            mContentView = (TextView) view.findViewById(R.id.project_due_date);
+            mTitleView = (TextView) view.findViewById(R.id.project_title);
 
         }
 

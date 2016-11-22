@@ -97,6 +97,26 @@ public class DBHelper  extends SQLiteOpenHelper {
         return newAssignmentRow;
     }
 
+    public long addNewProject(Project newProject) {
+
+        Log.d("In DB add new project ", " ");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //values.put(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTID, newAssignment.getAssignmentId());
+        values.put(DBRelatedConstants.PROJECT_PROJECTCOURSEID, newProject.getProjectCourseId());
+        values.put(DBRelatedConstants.PROJECT_PROJECTNAME, newProject.getProjectName());
+        values.put(DBRelatedConstants.PROJECT_PROJECTDESCRIPTION, newProject.getProjectDescription());
+        values.put(DBRelatedConstants.PROJECT_PROJECTDUEDATE, newProject.getProjectDueDate());
+        values.put(DBRelatedConstants.PROJECT_PROJECTDUETIME, newProject.getProjectDueTime());
+
+        // insert row
+        long newProjectRow = db.insert(TABLE_PROJECTS, null, values);
+        Log.d(" New Row iD", "New row inserted  in Term table" + newProjectRow);
+        Log.d("addNewProject","project id "+ newProject.getProjectId());
+        return newProjectRow;
+    }
+
     public List<Assignment> getAllAssignments() {
         List<Assignment> outputTermValues = new ArrayList<Assignment>();
         
