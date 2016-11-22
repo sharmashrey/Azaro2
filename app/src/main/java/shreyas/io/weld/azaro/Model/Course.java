@@ -25,6 +25,7 @@ public class Course {
     private String courseLocation;
     private long courseStartTime;
     private long courseEndTime;
+    private String weekDay;
 
     public int getCourseId() {
         return courseId;
@@ -74,4 +75,11 @@ public class Course {
         this.courseEndTime = courseEndTime;
     }
 
+    public String getWeekDay() {
+        return weekDay;
+    }
+
+    public void setWeekDay(String weekDay) {
+        this.weekDay = weekDay;
+    }
 }

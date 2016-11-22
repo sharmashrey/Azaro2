@@ -21,6 +21,7 @@ package shreyas.io.weld.azaro.Database;
         import shreyas.io.weld.azaro.Model.Task;
         import shreyas.io.weld.azaro.Model.Term;
 
+        import static shreyas.io.weld.azaro.Database.DBRelatedConstants.CREATE_TABLE_COURSES;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_COURSES;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_PROJECTS;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_TASKS;
@@ -46,6 +47,7 @@ public class DBHelper  extends SQLiteOpenHelper {
         db.execSQL(DBRelatedConstants.CREATE_TABLE_TERMS);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_COURSES);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_TASKS);
+        Log.d("on create", "onCreate: "+CREATE_TABLE_COURSES);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_TASK_ATTACHMENTS);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_ASSIGNMENTS);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_ASSIGNMENT_ATTACHMENTS);
@@ -152,6 +154,7 @@ public class DBHelper  extends SQLiteOpenHelper {
         values.put(DBRelatedConstants.COURSE_TERMID, newCourse.getCourseTermId());
         values.put(DBRelatedConstants.COURSE_COURSENAME, newCourse.getCourseName());
         values.put(DBRelatedConstants.COURSE_COURSELOCATION, newCourse.getCourseLocation());
+        values.put(DBRelatedConstants.COURSE_WEEKDAY,newCourse.getWeekDay());
         values.put(DBRelatedConstants.COURSE_COURSESTARTTIME, newCourse.getCourseStartTime());
         values.put(DBRelatedConstants.COURSE_COURSEENDTIME, newCourse.getCourseEndTime());
 

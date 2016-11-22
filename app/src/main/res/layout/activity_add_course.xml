@@ -25,6 +25,13 @@
                 android:inputType="textPostalAddress"
                 android:layout_width="fill_parent">
             </EditText>
+    <EditText
+        android:id="@+id/EditCourseWeekDay"
+        android:layout_height="wrap_content"
+        android:hint="Enter Week Day i.e. Mon, Tue, Wed, Thur, Fri"
+        android:inputType="textPostalAddress"
+        android:layout_width="fill_parent">
+    </EditText>
 
 
     <RelativeLayout

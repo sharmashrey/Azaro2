@@ -31,6 +31,8 @@ public class DBRelatedConstants {
     public static final String COURSE_COURSENAME = "course_name";
     public static final String COURSE_TERMID = "course_term_id";
     public static final String COURSE_COURSELOCATION = "course_location";
+    public static final String COURSE_WEEKDAY = "day_of_the_week";
+
     public static final String COURSE_COURSESTARTTIME = "course_start_time";
     public static final String COURSE_COURSEENDTIME = "course_end_time";
 
@@ -102,6 +104,7 @@ public class DBRelatedConstants {
             + COURSE_TERMID + " INTEGER, "
             + COURSE_COURSENAME + " TEXT, "
             +  COURSE_COURSELOCATION + " TEXT, "
+            + COURSE_WEEKDAY+ " TEXT, "
             + COURSE_COURSESTARTTIME + " INTEGER, "
             + COURSE_COURSEENDTIME + " INTEGER, "
             + "FOREIGN KEY( " + COURSE_TERMID +") REFERENCES " + TABLE_TERMS + "(" + TERM_TERMID +")"
