@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -206,13 +207,15 @@ public class MainActivity extends AppCompatActivity
 
                             builderInner.setMessage(strName);
                         builderInner.setTitle("Update Relevant Info");
-
+                            final LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+                            View myView=inflater.inflate(R.layout.update_dialog_course,null);
 
                         // Set up the Edit Text Containing Information
-                            input.setInputType(InputType.TYPE_CLASS_TEXT);
+                           /* input.setInputType(InputType.TYPE_CLASS_TEXT);
                             builderInner.setView(input);
                             input2.setInputType(InputType.TYPE_CLASS_TEXT);
-                            builderInner.setView(input2);
+                            builderInner.setView(input2);*/
+                            builderInner.setView(myView);
 
                             final EditText input3 = new EditText(MainActivity.this);
 
@@ -223,8 +226,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                m_Text = input.getText().toString();
-                                m_Text = input2.getText().toString();
+
                             }
                         });
 
