@@ -22,13 +22,14 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import shreyas.io.weld.azaro.Database.DBHelper;
+import shreyas.io.weld.azaro.Model.Assignment;
 import shreyas.io.weld.azaro.Model.Course;
 import shreyas.io.weld.azaro.Model.Project;
 import shreyas.io.weld.azaro.Model.Task;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FirstFragment.OnFragmentInteractionListener, CourseFragment.OnListFragmentInteractionListener,
-                    TaskFragment.OnListFragmentInteractionListener, ProjectFragment.OnListFragmentInteractionListener{
+                    TaskFragment.OnListFragmentInteractionListener, ProjectFragment.OnListFragmentInteractionListener, AssignmentFragment.OnListFragmentInteractionListener{
 
     public int currentfragment = 0;
     // Database Helper
@@ -73,6 +74,11 @@ public class MainActivity extends AppCompatActivity
                 }else if(currentfragment == 4){
                     Intent myIntent = new Intent(MainActivity.this, ProjectActivity.class);
                     myIntent.putExtra("key", 4); //Optional parameters
+                    MainActivity.this.startActivity(myIntent);
+                }else if(currentfragment == 5){
+                    
+                    Intent myIntent = new Intent(MainActivity.this, AssignmentActivity.class);
+                    myIntent.putExtra("key", 5); //Optional parameters
                     MainActivity.this.startActivity(myIntent);
                 }
             }
@@ -142,8 +148,11 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_project) {
             fragment = ProjectFragment.newInstance(4);
             currentfragment = 4;
+        }else if (id == R.id.nav_assignment_fragment) {
+            fragment = AssignmentFragment.newInstance(5);
+            currentfragment = 5;
         }
-
+        
         else if (id == R.id.nav_navigation) {
 
         }
@@ -251,4 +260,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Project item) {
     }
+    @Override
+    public void onListFragmentInteraction(Assignment item) {
+                
+    }
+                        
 }

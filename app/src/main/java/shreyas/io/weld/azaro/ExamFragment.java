@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import shreyas.io.weld.azaro.dummy.DummyContent;
-import shreyas.io.weld.azaro.dummy.DummyContent.DummyItem;
 
 import java.util.List;
+
+import shreyas.io.weld.azaro.Model.Exam;
 
 /**
  * A fragment representing a list of Items.
@@ -104,6 +104,6 @@ public class ExamFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Exam item);
     }
 }
