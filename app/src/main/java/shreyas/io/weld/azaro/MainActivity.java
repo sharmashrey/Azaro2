@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity
                     Intent myIntent = new Intent(MainActivity.this, ProjectActivity.class);
                     myIntent.putExtra("key", 4); //Optional parameters
                     MainActivity.this.startActivity(myIntent);
-
                 }
             }
         });

@@ -20,13 +20,14 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import android.app.LoaderManager.LoaderCallbacks;
 import java.util.Calendar;
 import java.util.List;
 
 import shreyas.io.weld.azaro.Database.DBHelper;
 import shreyas.io.weld.azaro.Model.Project;
 
-public class ProjectActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,View.OnClickListener{
+public class ProjectActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>,View.OnClickListener{
 
     private static final int REQUEST_READ_CONTACTS = 0;
     private static final String[] DUMMY_CREDENTIALS = new String[]{"foo@example.com:hello", "bar@example.com:world"};
