@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +22,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+
+import java.util.Calendar;
 
 import shreyas.io.weld.azaro.Database.DBHelper;
 import shreyas.io.weld.azaro.Model.Assignment;
@@ -206,13 +210,29 @@ public class MainActivity extends AppCompatActivity
 
                             builderInner.setMessage(strName);
                         builderInner.setTitle("Update Relevant Info");
+                            final LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+                            final View myView=inflater.inflate(R.layout.update_dialog_course,null);
 
 
-                        // Set up the Edit Text Containing Information
-                            input.setInputType(InputType.TYPE_CLASS_TEXT);
+                            // Set up the Edit Text Containing Information
+                           /* input.setInputType(InputType.TYPE_CLASS_TEXT);
                             builderInner.setView(input);
                             input2.setInputType(InputType.TYPE_CLASS_TEXT);
-                            builderInner.setView(input2);
+                            builderInner.setView(input2);*/
+                            builderInner.setView(myView);
+                            EditText updateWeekDay=((EditText)myView.findViewById(R.id.UpdateCourseWeekDay));
+                            EditText updateCourseName= ((EditText)myView.findViewById(R.id.UpdateCourseName));
+                            EditText updateLocation=((EditText)myView.findViewById(R.id.UpdateCourseLocation));
+                            EditText updateStartTime=(((EditText)myView.findViewById(R.id.update_in_time)));
+                            EditText updateEndTime=(((EditText)myView.findViewById(R.id.update_in_end_time)));
+
+                     //       updateEndTime.setText(convertTimeMillisToString(item.getCourseEndTime()));
+
+                    //        updateStartTime.setText(convertTimeMillisToString(item.getCourseStartTime() ));
+                            updateCourseName.setText(item.getCourseName());
+                            updateWeekDay.setText(item.getWeekDay());
+                            updateLocation.setText(item.getCourseLocation());
+
 
                             final EditText input3 = new EditText(MainActivity.this);
 
@@ -229,14 +249,42 @@ public class MainActivity extends AppCompatActivity
                         });
 
 
-                        builderInner.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(
-                                            DialogInterface dialog,
-                                            int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
+                            builderInner.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Log.d("onclick", "onClick: "+"done");
+                                    String courselocation=((EditText)myView.findViewById(R.id.UpdateCourseLocation)).getText().toString();
+                                    String coursename=((EditText)myView.findViewById(R.id.UpdateCourseName)).getText().toString();
+
+                                    String weekday=((EditText)myView.findViewById(R.id.UpdateCourseWeekDay)).getText().toString();
+                                    long starttime=convertTimeStringToMillis(((EditText)myView.findViewById(R.id.update_in_time)).getText().toString());
+                                    long endtime=convertTimeStringToMillis(((EditText)myView.findViewById(R.id.update_in_end_time)).getText().toString());
+                                    Course updatedcourse=new Course();
+                         //           updatedcourse.setCourseEndTime(endtime);
+                                    updatedcourse.setCourseLocation(courselocation);
+                                    updatedcourse.setCourseName(coursename);
+                        //            updatedcourse.setCourseStartTime(starttime);
+                                    updatedcourse.setCourseId(item.getCourseId());
+                                    db.updateCourse(updatedcourse);
+
+                                }
+
+
+                                long convertTimeStringToMillis(String iptime){
+
+                                    String[] endTimeString =  iptime.split(":");
+                                    //String endTimeString = Integer.toString(endHour)+Integer.toString(endMinute);
+                                    //long endTime = Long.parseLong(endTimeString[0]+endTimeString[1]);
+                                    Calendar cal = Calendar.getInstance();
+                                    cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(endTimeString[0]));
+                                    cal.set(Calendar.MINUTE, Integer.parseInt(endTimeString[1]));
+                                    cal.set(Calendar.SECOND, 0);
+
+                                    // obtain given time in ms
+                                    long endTime = cal.getTimeInMillis();
+                                    return endTime;
+                                }
+
+                            });
                         builderInner.show();
                     }else{  // Delete selected , implement it
                             db.deleteCourse(item);

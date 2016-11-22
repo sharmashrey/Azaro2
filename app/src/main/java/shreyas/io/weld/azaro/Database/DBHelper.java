@@ -76,7 +76,38 @@ public class DBHelper  extends SQLiteOpenHelper {
         // create new tables
         onCreate(db);
     }
-    
+
+    public void updateCourse(Course course){
+        SQLiteDatabase db = this.getWritableDatabase();
+        /*String strSQL = "UPDATE Courses SET "+
+                DBRelatedConstants.COURSE_COURSENAME +"="+ course.getCourseName()+", "
+                +DBRelatedConstants.COURSE_TERMID +"="+ course.getCourseTermId()+", "
+                +DBRelatedConstants.COURSE_COURSELOCATION +"="+ course.getCourseLocation()+", "
+                +DBRelatedConstants.COURSE_COURSELOCATION +"="+ course.getCourseLocation()+", "
+                +DBRelatedConstants.COURSE_WEEKDAY+"="+course.getWeekDay()+", "
+                + DBRelatedConstants.COURSE_COURSESTARTTIME +"="+ course.getCourseStartTime()+", "
+                + DBRelatedConstants.COURSE_COURSEENDTIME +"="+ course.getCourseEndTime()
+
+                +" WHERE "+ DBRelatedConstants.COURSE_ID +"=" + course.getCourseId();
+        Log.d("updatecourse", "updateCourse: "+strSQL);
+
+        db.execSQL(strSQL);*/
+
+        // SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBRelatedConstants.COURSE_COURSENAME,course.getCourseName());
+        values.put(DBRelatedConstants.COURSE_TERMID,course.getCourseTermId());
+        values.put(DBRelatedConstants.COURSE_COURSELOCATION,course.getCourseLocation());
+        values.put(DBRelatedConstants.COURSE_WEEKDAY,course.getWeekDay());
+       // values.put(DBRelatedConstants.COURSE_COURSESTARTTIME,course.getCourseStartTime());
+        Log.d("Course Update", "updateCourse: location"+course.getCourseLocation());
+       // values.put(DBRelatedConstants.COURSE_COURSEENDTIME,course.getCourseEndTime());
+        database.update("Courses", values, DBRelatedConstants.COURSE_ID+"=?", new String[] {Integer.toString(course.getCourseId())});
+        database.close();
+
+    }
+
     public long addNewAssignment(Assignment newAssignment) {
         
         Log.d("In DB add new assign ", " ");
