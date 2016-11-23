@@ -287,11 +287,19 @@ public class DBHelper  extends SQLiteOpenHelper {
         //Get courseId from above course object
         //use sqlite db.delete method to delete row having that course id, use this in where
     }
-    public int deleteAssignment(Assignment assignment){
+      public int deleteAssignment(Assignment assignment){
         SQLiteDatabase db = this.getWritableDatabase();
         int assignmentId = assignment.getAssignmentId();
         String whereclause = DBRelatedConstants.ASSIGNMENT_ASSIGNMENTID+" = "+String.valueOf(assignmentId);
         return db.delete(DBRelatedConstants.TABLE_ASSIGNMENTS, whereclause, null);
+        //Get courseId from above course object
+        //use sqlite db.delete method to delete row having that course id, use this in where
+    }
+    public int deleteTask(Task task){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int taskId = task.getTaskId();
+        String whereclause = DBRelatedConstants.TASK_TASKID+" = "+String.valueOf(taskId);
+        return db.delete(DBRelatedConstants.TABLE_TASKS, whereclause, null);
         //Get courseId from above course object
         //use sqlite db.delete method to delete row having that course id, use this in where
     }

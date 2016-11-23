@@ -28,13 +28,19 @@
     </EditText>
 
 
-    <EditText
-        android:id="@+id/task_for_course"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Course Id"
-        android:inputType="textPostalAddress"
-        android:layout_width="fill_parent">
-    </EditText>
+        android:text="Select Courses"
+        android:padding="5dp"/>
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/coursesSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.AppCompatSpinner>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -113,6 +119,6 @@
         android:layout_marginTop="16dp"
         android:text="@string/save_button"
         android:textStyle="bold"
-        android:onClick="send"/>
+        android:onClick="task_save"/>
 
 </LinearLayout>

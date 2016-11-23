@@ -2,13 +2,11 @@ package shreyas.io.weld.azaro;
 
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
-import android.app.LoaderManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -17,20 +15,17 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.SpinnerAdapter;
 import android.widget.TimePicker;
 import shreyas.io.weld.azaro.Model.Assignment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -38,11 +33,11 @@ import android.app.LoaderManager.LoaderCallbacks;
 import shreyas.io.weld.azaro.Database.DBHelper;
 import shreyas.io.weld.azaro.Model.Course;
 
-public class AssignmentActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>,View.OnClickListener{
+public class AddAssignmentActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>,View.OnClickListener{
 
     private static final int REQUEST_READ_CONTACTS = 0;
     private static final String[] DUMMY_CREDENTIALS = new String[]{"foo@example.com:hello", "bar@example.com:world"};
-    private AssignmentActivity.UserLoginTask mAuthTask = null;
+    private AddAssignmentActivity.UserLoginTask mAuthTask = null;
 
     // UI references -create variables for storing message & button objects
     private AutoCompleteTextView mEmailView;
@@ -214,7 +209,7 @@ public class AssignmentActivity extends AppCompatActivity implements LoaderCallb
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(AssignmentActivity.this,
+                new ArrayAdapter<>(AddAssignmentActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);

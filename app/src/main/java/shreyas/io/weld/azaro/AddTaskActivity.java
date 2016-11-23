@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.LoaderManager;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +25,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -30,8 +33,9 @@ import shreyas.io.weld.azaro.Database.DBHelper;
 import shreyas.io.weld.azaro.Model.Course;
 import shreyas.io.weld.azaro.Model.Task;
 
+import android.app.LoaderManager.LoaderCallbacks;
 
-public class AddTaskActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,View.OnClickListener {
+public class AddTaskActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>,View.OnClickListener {
 
     private static final int REQUEST_READ_CONTACTS = 0;
     private static final String[] DUMMY_CREDENTIALS = new String[]{"foo@example.com:hello", "bar@example.com:world"};
@@ -48,8 +52,12 @@ public class AddTaskActivity extends AppCompatActivity implements LoaderManager.
     Button btnDatePicker, btnTimePicker;
     EditText txtDate, txtTime;
     private int mYear, mMonth, mDay, mHour, mMinute;
+    private Context currentContext;
+    AppCompatSpinner courseSpinner;
 
-
+    int courseSelectedPosition = 0;
+    List<Course> courseList;
+    List<String> courseNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +67,9 @@ public class AddTaskActivity extends AppCompatActivity implements LoaderManager.
         taskName = (EditText) findViewById(R.id.EditTaskName);
         taskDesc = (EditText) findViewById(R.id.EditTaskDesc);
         taskLoop =  (EditText) findViewById(R.id.looping_no);
-        taskCourseId = (EditText) findViewById(R.id.task_for_course);
 
         mSaveButton = (Button) findViewById(R.id.task_save_button);
-
+        courseSpinner = (AppCompatSpinner) findViewById(R.id.coursesSpinner);
         //btn dt tm pckr
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         txtDate=(EditText)findViewById(R.id.in_date);
@@ -72,6 +79,14 @@ public class AddTaskActivity extends AppCompatActivity implements LoaderManager.
         txtTime=(EditText)findViewById(R.id.in_time);
         btnTimePicker.setOnClickListener(this);
 
+        DBHelper dbHelper = new DBHelper(this);
+        currentContext = this;
+        courseList = dbHelper.getAllCourses();
+        courseNames = new ArrayList<String>();
+        for(Course course : courseList){
+            courseNames.add(course.getCourseName());
+        }
+        ArrayAdapter<String> spinadapter = new ArrayAdapter<String>(currentContext, R.layout.spinner_text, R.id.spinner_textview, courseNames);
         //   Retrieve Extras are retrieved on the other side via:
         Intent intent = getIntent();
         String value = intent.getStringExtra("key"); //if it's a string you stored.
@@ -82,6 +97,18 @@ public class AddTaskActivity extends AppCompatActivity implements LoaderManager.
         adapter.setDropDownViewResource(android.R.);
         spinner.setAdapter(adapter); // Apply the adapter to the spinner
 */
+        courseSpinner.setAdapter(spinadapter);
+        courseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                courseSelectedPosition = i;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                courseSelectedPosition = 0;
+            }
+        });
 
     }
 
@@ -124,7 +151,7 @@ public class AddTaskActivity extends AppCompatActivity implements LoaderManager.
     }
 
     //When the send button is clicked
-    public void send(View v)
+    public void task_save(View v)
     {
         // ADD TO DATABASE
         db = new DBHelper(getApplicationContext());
@@ -132,7 +159,7 @@ public class AddTaskActivity extends AppCompatActivity implements LoaderManager.
         Task newTask = new Task();
         newTask.setTaskName( taskName.getText().toString());
         newTask.setTaskDescription( taskDesc.getText().toString());
-        newTask.setTaskCourseId(Integer.parseInt(taskCourseId.getText().toString()));
+        newTask.setTaskCourseId(courseList.get(courseSelectedPosition).getCourseId());
         newTask.setTaskType(Integer.parseInt(taskLoop.getText().toString()));
 
         String[] startDateString =  txtDate.getText().toString().split("-");
