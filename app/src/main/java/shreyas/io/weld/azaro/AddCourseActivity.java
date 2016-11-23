@@ -23,7 +23,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import shreyas.io.weld.azaro.Database.DBHelper;
@@ -48,6 +50,7 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
 
     private EditText mEditCourseName;
     private EditText mEditCourseLocationView;
+    private EditText mEditCourseWeekDay;
     //private EditText txtDate;
     private EditText txtTime;
     private EditText txtEndTime;
@@ -73,6 +76,7 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
         //make message text field & button object
         mEditCourseName = (EditText) findViewById(R.id.EditCourseName);
         mEditCourseLocationView = (EditText) findViewById(R.id.EditCourseLocation);
+        mEditCourseWeekDay=(EditText) findViewById(R.id.EditCourseWeekDay);
         btnCourseSave = (Button) findViewById(R.id.save_button);
         //btn dt tm pckr
         //btnDatePicker=(Button)findViewById(R.id.btn_date);
@@ -149,6 +153,7 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
                             txtEndTime.setText(hourOfDay + ":" + minute);
                         }
                     }, endHour, endMinute, false);
+
             timePickerDialog.show();
         }
     }
@@ -162,7 +167,7 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
         Course newCourse= new Course();
         newCourse.setCourseName( mEditCourseName.getText().toString());
         newCourse.setCourseLocation( mEditCourseLocationView.getText().toString());
-
+        newCourse.setWeekDay(mEditCourseWeekDay.getText().toString());
         String[] startTimeString =  txtTime.getText().toString().split(":");
         //String startTimeString = Integer.toString(startHour)+Integer.toString(startMinute);
         long startTime = Long.parseLong(startTimeString[0]+startTimeString[1]);
@@ -171,9 +176,18 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
         Log.d("In Save button", " sT " + txtTime.getText().toString());
 
 
-        String[] endTimeString =  txtEndTime.getText().toString().split(":");
+        /*String[] endTimeString =  txtEndTime.getText().toString().split(":");
         //String endTimeString = Integer.toString(endHour)+Integer.toString(endMinute);
-        long endTime = Long.parseLong(endTimeString[0]+endTimeString[1]);
+        //long endTime = Long.parseLong(endTimeString[0]+endTimeString[1]);
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(endTimeString[0]));
+        cal.set(Calendar.MINUTE, Integer.parseInt(endTimeString[1]));
+        cal.set(Calendar.SECOND, 0);*/
+
+        // obtain given time in ms
+        long endTime = convertTimeStringToMillis(txtEndTime.getText().toString());
+
+        Log.d("In Save button","Convert back to date"+convertTimeMillisToString(endTime));
         Log.d("In Save button", "ET " + endTime);
         newCourse.setCourseEndTime(endTime);
         Log.d("In Save button", " eT " + txtEndTime.getText().toString());
@@ -182,6 +196,28 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
 
         db.addNewCourse(newCourse);
         finish();
+    }
+
+    String convertTimeMillisToString(long ip){
+        Date d=new Date(ip);
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+        String dateString = formatter.format(d);
+        return dateString;
+    }
+
+    long convertTimeStringToMillis(String iptime){
+
+        String[] endTimeString =  iptime.split(":");
+        //String endTimeString = Integer.toString(endHour)+Integer.toString(endMinute);
+        //long endTime = Long.parseLong(endTimeString[0]+endTimeString[1]);
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(endTimeString[0]));
+        cal.set(Calendar.MINUTE, Integer.parseInt(endTimeString[1]));
+        cal.set(Calendar.SECOND, 0);
+
+        // obtain given time in ms
+        long endTime = cal.getTimeInMillis();
+        return endTime;
     }
 
     private void populateAutoComplete() {}
