@@ -301,6 +301,7 @@ public class MainActivity extends AppCompatActivity
         //call updatestudentcourse method and pass the new updated student course object
         //
     }
+
     @Override
     public void onListFragmentInteraction(Task item) {
     }
@@ -383,8 +384,72 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(Assignment item) {
-                
+    public void onListFragmentInteraction(final Assignment item) {
+        //first show an alert dialog to edit/delete. on delete click call delete method. on edit click
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
+        builderSingle.setIcon(R.drawable.ic_speaker_dark);
+        builderSingle.setTitle("Edit Assignment "+ item.getAssignmentName());
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.dialog_assignment_layout);
+
+        arrayAdapter.add("Update");
+        arrayAdapter.add("Delete");
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss(); }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String strName = arrayAdapter.getItem(which);
+                if(strName.equalsIgnoreCase("Update") ){
+                    final AlertDialog.Builder builderInner = new AlertDialog.Builder(MainActivity.this);
+                    final EditText input = new EditText(MainActivity.this);
+                    final EditText input2 = new EditText(MainActivity.this);
+
+                    builderInner.setMessage(strName);
+                    builderInner.setTitle("Update Relevant Info");
+
+
+                    // Set up the Edit Text Containing Information
+                    input.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builderInner.setView(input);
+                    input2.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builderInner.setView(input2);
+
+                    final EditText input3 = new EditText(MainActivity.this);
+
+                    // EditText mEditCourseName = (EditText) findViewById(R.id.EditCourseNameDialogueBx);
+
+                    // Set up the buttons
+                    builderInner.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            m_Text = input.getText().toString();
+                            m_Text = input2.getText().toString();
+                        }
+                    });
+
+                    builderInner.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(
+                                DialogInterface dialog,
+                                int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builderInner.show();
+                }
+                else if(strName.equalsIgnoreCase("Delete")){  // Delete selected , implement it
+                    db.deleteAssignment(item);
+                }
+            }
+        });
+        builderSingle.show();
     }
                         
 }
