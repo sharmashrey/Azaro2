@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity
 
                             });
                         builderInner.show();
-                    }else{  // Delete selected , implement it
+                    }else {  // Delete selected , implement it
                             db.deleteCourse(item);
                         }
 
@@ -315,6 +315,7 @@ public class MainActivity extends AppCompatActivity
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.dialog_project_layout);
 
+        arrayAdapter.add("Add Project Phase");
         arrayAdapter.add("Update");
         arrayAdapter.add("Delete");
 
