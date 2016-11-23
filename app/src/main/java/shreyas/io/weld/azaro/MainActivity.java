@@ -367,7 +367,14 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
                     builderInner.show();
-                }else{  // Delete selected , implement it
+                }
+                else if(strName.equalsIgnoreCase("Add Project Phase")){  // Delete selected , implement it
+
+
+
+
+                }
+                else if(strName.equalsIgnoreCase("Delete")){  // Delete selected , implement it
                     db.deleteProject(item);
                 }
             }
