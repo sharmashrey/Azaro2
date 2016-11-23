@@ -161,10 +161,10 @@ public class AssignmentActivity extends AppCompatActivity implements LoaderCallb
         input1.setAssignmentCourseId(courseList.get(courseSelectedPosition).getCourseId());
         input1.setAssignmentName  ( mEditAssignmentName.getText().toString());
         input1.setAssignmentDescription( mEditAssignmentDescription.getText().toString());
-        String time = mHour+""+mMinute;
-        String date = mYear+""+mMonth+""+mDay;
-        input1.setAssignmentDueTime( Integer.parseInt(time) );
-        input1.setAssignmentDueDate( Integer.parseInt(date) );
+        String time = String.valueOf(mHour)+":"+String.valueOf(mMinute);
+        String date = String.valueOf(mYear)+"/"+String.valueOf(mMonth)+"/"+String.valueOf(mDay);
+        input1.setAssignmentDueTime(time);
+        input1.setAssignmentDueDate(date);
         Log.d("calling ", " ");
         db.addNewAssignment(input1);
         finish();

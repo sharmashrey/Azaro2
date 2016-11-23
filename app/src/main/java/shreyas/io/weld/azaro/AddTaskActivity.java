@@ -135,16 +135,18 @@ public class AddTaskActivity extends AppCompatActivity implements LoaderManager.
         newTask.setTaskCourseId(Integer.parseInt(taskCourseId.getText().toString()));
         newTask.setTaskType(Integer.parseInt(taskLoop.getText().toString()));
 
-        String[] startDateString =  txtDate.getText().toString().split("-");
+        //String[] startDateString =  txtDate.getText().toString().split("-");
         //yyyymmdd format
-        long startDate = Long.parseLong(startDateString[2]+startDateString[1] + startDateString[0]);
+        //long startDate = Long.parseLong(startDateString[2]+startDateString[1] + startDateString[0]);
+        String startDate = String.valueOf(mYear)+"/"+String.valueOf(mMonth)+"/"+String.valueOf(mDay);
         Log.d("In Save Task", "SD " + startDate);
         newTask.setTaskDueDate(startDate);
         Log.d("In Save button", " sD " + txtDate.getText().toString());
 
 
-        String[] startTimeString =  txtTime.getText().toString().split(":");
-        long startTime = Long.parseLong(startTimeString[0]+startTimeString[1]);
+        //String[] startTimeString =  txtTime.getText().toString().split(":");
+        //long startTime = Long.parseLong(startTimeString[0]+startTimeString[1]);
+
         Log.d("In Save button", "ET " + startTime);
         newTask.setTaskDueTime(startTime);
         Log.d("In Save button", " eT " + txtTime.getText().toString());

@@ -226,9 +226,8 @@ public class MainActivity extends AppCompatActivity
                             EditText updateStartTime=(((EditText)myView.findViewById(R.id.update_in_time)));
                             EditText updateEndTime=(((EditText)myView.findViewById(R.id.update_in_end_time)));
 
-                     //       updateEndTime.setText(convertTimeMillisToString(item.getCourseEndTime()));
-
-                    //        updateStartTime.setText(convertTimeMillisToString(item.getCourseStartTime() ));
+                            updateEndTime.setText(convertTimeMillisToString(item.getCourseEndTime()));
+                            updateStartTime.setText(convertTimeMillisToString(item.getCourseStartTime() ));
                             updateCourseName.setText(item.getCourseName());
                             updateWeekDay.setText(item.getWeekDay());
                             updateLocation.setText(item.getCourseLocation());
@@ -272,15 +271,15 @@ public class MainActivity extends AppCompatActivity
                                 long convertTimeStringToMillis(String iptime){
 
                                     String[] endTimeString =  iptime.split(":");
-                                    //String endTimeString = Integer.toString(endHour)+Integer.toString(endMinute);
-                                    //long endTime = Long.parseLong(endTimeString[0]+endTimeString[1]);
+                                   // String endTimeString = Integer.toString(endHour)+Integer.toString(endMinute);
+                                   // int endTime = Long.parseLong(endTimeString[0]+endTimeString[1]);
                                     Calendar cal = Calendar.getInstance();
                                     cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(endTimeString[0]));
                                     cal.set(Calendar.MINUTE, Integer.parseInt(endTimeString[1]));
                                     cal.set(Calendar.SECOND, 0);
 
                                     // obtain given time in ms
-                                    long endTime = cal.getTimeInMillis();
+                                    long endTime = (int)cal.getTimeInMillis();
                                     return endTime;
                                 }
 

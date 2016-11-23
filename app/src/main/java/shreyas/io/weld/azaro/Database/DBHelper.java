@@ -87,7 +87,6 @@ public class DBHelper  extends SQLiteOpenHelper {
                 +DBRelatedConstants.COURSE_WEEKDAY+"="+course.getWeekDay()+", "
                 + DBRelatedConstants.COURSE_COURSESTARTTIME +"="+ course.getCourseStartTime()+", "
                 + DBRelatedConstants.COURSE_COURSEENDTIME +"="+ course.getCourseEndTime()
-
                 +" WHERE "+ DBRelatedConstants.COURSE_ID +"=" + course.getCourseId();
         Log.d("updatecourse", "updateCourse: "+strSQL);
 
@@ -100,9 +99,9 @@ public class DBHelper  extends SQLiteOpenHelper {
         values.put(DBRelatedConstants.COURSE_TERMID,course.getCourseTermId());
         values.put(DBRelatedConstants.COURSE_COURSELOCATION,course.getCourseLocation());
         values.put(DBRelatedConstants.COURSE_WEEKDAY,course.getWeekDay());
-       // values.put(DBRelatedConstants.COURSE_COURSESTARTTIME,course.getCourseStartTime());
+        values.put(DBRelatedConstants.COURSE_COURSESTARTTIME,course.getCourseStartTime());
         Log.d("Course Update", "updateCourse: location"+course.getCourseLocation());
-       // values.put(DBRelatedConstants.COURSE_COURSEENDTIME,course.getCourseEndTime());
+        values.put(DBRelatedConstants.COURSE_COURSEENDTIME,course.getCourseEndTime());
         database.update("Courses", values, DBRelatedConstants.COURSE_ID+"=?", new String[] {Integer.toString(course.getCourseId())});
         database.close();
 

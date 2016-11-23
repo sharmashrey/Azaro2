@@ -13,8 +13,8 @@ public class Term {
 
     private int termId;
     private String termName;
-    private int termStartDate;
-    private int termEndDate;
+    private String termStartDate;
+    private String termEndDate;
 
     public int getTermId() {
         return termId;
@@ -32,19 +32,19 @@ public class Term {
         this.termName = termName;
     }
 
-    public int getTermStartDate() {
+    public String getTermStartDate() {
         return termStartDate;
     }
 
-    public void setTermStartDate(int termStartDate) {
+    public void setTermStartDate(String termStartDate) {
         this.termStartDate = termStartDate;
     }
 
-    public int getTermEndDate() {
+    public String getTermEndDate() {
         return termEndDate;
     }
 
-    public void setTermEndDate(int termEndDate) {
+    public void setTermEndDate(String termEndDate) {
         this.termEndDate = termEndDate;
     }
 

@@ -16,7 +16,7 @@ public class Task {
     private int taskCourseId;
     private String taskName;
     private String taskDescription;
-    private long taskDueDate;
+    private String taskDueDate;
     private int taskType;
 
     public long getTaskDueTime() {
@@ -61,11 +61,11 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
-    public long getTaskDueDate() {
+    public String getTaskDueDate() {
         return taskDueDate;
     }
 
-    public void setTaskDueDate(long taskDueDate) {
+    public void setTaskDueDate(String taskDueDate) {
         this.taskDueDate = taskDueDate;
     }
 

@@ -94,8 +94,8 @@ public class DBRelatedConstants {
     public static final String CREATE_TABLE_TERMS = "CREATE TABLE " + TABLE_TERMS + "( "
             + TERM_TERMID + " INTEGER PRIMARY KEY,"
             + TERM_TERMNAME + " TEXT,"
-            + TERM_TERMSTARTDATE + " INTEGER,"
-            + TERM_TERMENDDATE + " INTEGER"
+            + TERM_TERMSTARTDATE + " TEXT,"
+            + TERM_TERMENDDATE + " TEXT"
             + ")";
 
     // Course table create statement
@@ -105,8 +105,8 @@ public class DBRelatedConstants {
             + COURSE_COURSENAME + " TEXT, "
             +  COURSE_COURSELOCATION + " TEXT, "
             + COURSE_WEEKDAY+ " TEXT, "
-            + COURSE_COURSESTARTTIME + " INTEGER, "
-            + COURSE_COURSEENDTIME + " INTEGER, "
+            + COURSE_COURSESTARTTIME + " TEXT, "
+            + COURSE_COURSEENDTIME + " TEXT, "
             + "FOREIGN KEY( " + COURSE_TERMID +") REFERENCES " + TABLE_TERMS + "(" + TERM_TERMID +")"
             +")";
 
@@ -116,8 +116,8 @@ public class DBRelatedConstants {
             + TASK_TASKCOURSEID + " INTEGER, "
             + TASK_TASKNAME + " TEXT, "
             + TASK_TASKDESCRIPTION + " TEXT, "
-            + TASK_TASKDUEDATE + " INTEGER, "
-            + TASK_TASKDUETIME + " INTEGER,"
+            + TASK_TASKDUEDATE + " TEXT, "
+            + TASK_TASKDUETIME + " TEXT,"
             + TASK_TYPE + " INTEGER,"
             + "FOREIGN KEY( " + TASK_TASKCOURSEID +") REFERENCES " + TABLE_COURSES + "(" + COURSE_ID +")"
             + ")";
@@ -137,8 +137,8 @@ public class DBRelatedConstants {
             + ASSIGNMENT_ASSIGNMENTCOURSEID + " INTEGER, "
             + ASSIGNMENT_ASSIGNMENTNAME + " TEXT, "
             + ASSIGNMENT_ASSIGNMENTDESCRIPTION + " TEXT, "
-            + ASSIGNMENT_ASSIGNMENTDUEDATE + " INTEGER, "
-            + ASSIGNMENT_ASSIGNMENTDUETIME + " INTEGER, "
+            + ASSIGNMENT_ASSIGNMENTDUEDATE + " TEXT, "
+            + ASSIGNMENT_ASSIGNMENTDUETIME + " TEXT, "
             + "FOREIGN KEY( " + ASSIGNMENT_ASSIGNMENTCOURSEID +") REFERENCES " + TABLE_COURSES + "(" + COURSE_ID +")"
             + ")";
 
@@ -158,8 +158,8 @@ public class DBRelatedConstants {
             + PROJECT_PROJECTNAME + " TEXT, "
             + PROJECT_PROJECTDESCRIPTION + " TEXT, "
             + PROJECT_PROJECTTOTALPHASES + " INTEGER, "
-            + PROJECT_PROJECTDUEDATE + " INTEGER, "
-            + PROJECT_PROJECTDUETIME + " INTEGER, "
+            + PROJECT_PROJECTDUEDATE + " TEXT, "
+            + PROJECT_PROJECTDUETIME + " TEXT, "
             + "FOREIGN KEY( " + PROJECT_PROJECTCOURSEID +") REFERENCES " + TABLE_COURSES + "(" + COURSE_ID +")"
             + ")";
 
@@ -170,8 +170,8 @@ public class DBRelatedConstants {
             + PROJECTPHASES_COURSEID + " INTEGER, "
             + PROJECTPHASES_PROJECTPHASENAME + " TEXT, "
             + PROJECTPHASES_PROJECTPHASEDESCRIPTION + " TEXT, "
-            + PROJECTPHASES_PROJECTPHASEDUEDATE + " INTEGER, "
-            + PROJECTPHASE_PROJECTPHASEDUETIME + " INTEGER, "
+            + PROJECTPHASES_PROJECTPHASEDUEDATE + " TEXT, "
+            + PROJECTPHASE_PROJECTPHASEDUETIME + " TEXT, "
             + "FOREIGN KEY( " + PROJECTPHASES_PROJECTID +") REFERENCES " + TABLE_PROJECTS + "(" + PROJECT_PROJECTID +"), "
             + "FOREIGN KEY( " + PROJECTPHASES_COURSEID +") REFERENCES " + TABLE_COURSES + "(" + COURSE_ID +")"
             + ")";
