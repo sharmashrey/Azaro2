@@ -33,9 +33,17 @@
             android:name=".AddTaskActivity"
             android:label="@string/title_activity_add_task" />
         <activity android:name=".ProjectActivity" />
-        <activity android:name=".AddAssignmentActivity"
-            android:label="@string/title_activity_add_assignment"/>
-        <activity android:name=".AddExamActivity"></activity>
+        <activity
+            android:name=".AddAssignmentActivity"
+            android:label="@string/title_activity_add_assignment" />
+        <activity
+            android:name=".AddTermActivity"
+            android:label="Add New Term" />
+        <activity android:name=".AddExamActivity" />
+        <activity
+            android:name=".UpdateProjectActivity"
+            android:label="@string/title_activity_update_project"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

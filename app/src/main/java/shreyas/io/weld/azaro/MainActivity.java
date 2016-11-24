@@ -30,9 +30,10 @@ import shreyas.io.weld.azaro.Model.Assignment;
 import shreyas.io.weld.azaro.Model.Course;
 import shreyas.io.weld.azaro.Model.Project;
 import shreyas.io.weld.azaro.Model.Task;
+import shreyas.io.weld.azaro.Model.Term;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FirstFragment.OnFragmentInteractionListener, CourseFragment.OnListFragmentInteractionListener,
+        implements NavigationView.OnNavigationItemSelectedListener, FirstFragment.OnFragmentInteractionListener, TermFragment.OnListFragmentInteractionListener, CourseFragment.OnListFragmentInteractionListener,
                     TaskFragment.OnListFragmentInteractionListener, ProjectFragment.OnListFragmentInteractionListener, AssignmentFragment.OnListFragmentInteractionListener{
 
     public int currentfragment = 0;
@@ -64,8 +65,9 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 //on click of floating button, start new activity
                 if(currentfragment == 1){
-                    //
-
+                    Intent myIntent = new Intent(MainActivity.this, AddTermActivity.class);
+                    myIntent.putExtra("key", 1); //Optional parameters
+                    MainActivity.this.startActivity(myIntent);
                 }else if(currentfragment == 2){
                     Intent myIntent = new Intent(MainActivity.this, AddTaskActivity.class);
                     myIntent.putExtra("key", 2); //Optional parameters
@@ -140,6 +142,9 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         if (id == R.id.nav_dashboard_fragment) {
             // Stay on Homepage
+        }else if (id == R.id.nav_term_fragment) {
+            fragment = TermFragment.newInstance(1);
+            currentfragment = 1; //Term
         }
         else if (id == R.id.nav_task_fragment) {
             fragment = TaskFragment.newInstance(2);
@@ -155,6 +160,7 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.nav_assignment_fragment) {
             fragment = AssignmentFragment.newInstance(5);
             currentfragment = 5;
+
         }
         
         else if (id == R.id.nav_navigation) {
@@ -301,6 +307,52 @@ public class MainActivity extends AppCompatActivity
         //call updatestudentcourse method and pass the new updated student course object
         //
     }
+
+
+    @Override
+    public void onListFragmentInteraction(final Term item) {
+
+        //first show an alert dialog to edit/delete. on delete click call delete method. on edit click
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
+        builderSingle.setIcon(R.drawable.ic_speaker_dark);
+        builderSingle.setTitle("Edit Term "+ item.getTermName());
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.dialog_item_layout);
+
+        arrayAdapter.add("Update");
+        arrayAdapter.add("Delete");
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss(); }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = arrayAdapter.getItem(which);
+
+                        {  // Delete selected , implement it
+                            db.deleteTerm(item);
+
+
+                        }
+                    }
+                });
+
+        //for alert dialogue
+
+        //this is the item which was clicked.
+        //display all info in an alert dialog in edit texts. but button save. on click of that button
+        //call updatestudentcourse method and pass the new updated student course object
+        //
+    }
+
+
+
+
+
 
     @Override
     public void onListFragmentInteraction(final Task item) {

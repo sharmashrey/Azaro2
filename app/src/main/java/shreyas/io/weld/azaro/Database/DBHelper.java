@@ -235,12 +235,14 @@ public class DBHelper  extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (resultTermValues.moveToFirst()) {
             do {
+                Log.e("In get terms","1");
                 Term outputResult = new Term();
                 outputResult.setTermId(resultTermValues.getInt(resultTermValues.getColumnIndex(DBRelatedConstants.TERM_TERMID)));
                 outputResult.setTermName(resultTermValues.getString(resultTermValues.getColumnIndex(DBRelatedConstants.TERM_TERMNAME)));
                 outputResult.setTermStartDate(resultTermValues.getString(resultTermValues.getColumnIndex(DBRelatedConstants.TERM_TERMSTARTDATE)));
                 outputResult.setTermEndDate(resultTermValues.getString(resultTermValues.getColumnIndex(DBRelatedConstants.TERM_TERMENDDATE)));
                 outputTermValues.add(outputResult);
+                Log.e("In get terms","2");
             } while (resultTermValues.moveToNext());
         }
 
@@ -266,6 +268,17 @@ public class DBHelper  extends SQLiteOpenHelper {
 
         return newCourseRow;
 
+    }
+
+    public int deleteTerm(Term term){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int termId = term.getTermId();
+        String whereclause = DBRelatedConstants.TERM_TERMID+" = "+String.valueOf(termId);
+
+        return db.delete(DBRelatedConstants.TABLE_TERMS, whereclause, null);
+        //Get courseId from above course object
+
+        //use sqlite db.delete method to delete row having that course id, use this in where
     }
 
     public int deleteCourse(Course course){

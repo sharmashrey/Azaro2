@@ -43,7 +43,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="Start Time"
             android:id="@+id/update_btn_time"
@@ -60,8 +60,8 @@
             android:layout_marginLeft="11dp"
             android:layout_marginStart="11dp"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/btn_time"
-            android:layout_toEndOf="@+id/btn_time" />
+            android:layout_toRightOf="@+id/update_btn_time"
+            android:layout_toEndOf="@+id/update_btn_time" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -72,7 +72,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="End Time"
             android:id="@+id/update_btn_end_time"
@@ -89,8 +89,8 @@
             android:layout_marginLeft="11dp"
             android:layout_marginStart="11dp"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/btn_end_time"
-            android:layout_toEndOf="@+id/btn_end_time" />
+            android:layout_toRightOf="@+id/update_btn_end_time"
+            android:layout_toEndOf="@+id/update_btn_end_time" />
     </RelativeLayout>
 
 

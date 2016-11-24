@@ -1,4 +1,4 @@
-    <resources>
+<resources>
     <string name="app_name">Azaro</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -45,4 +45,5 @@
         <item>Weekly</item>
     </string-array>
     <string name="schedule_prompt">Select Repetition</string>
+    <string name="title_activity_update_project">UpdateProjectActivity</string>
 </resources>

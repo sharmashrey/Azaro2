@@ -1,13 +1,13 @@
 package shreyas.io.weld.azaro;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import shreyas.io.weld.azaro.ItemFragment.OnListFragmentInteractionListener;
-import shreyas.io.weld.azaro.dummy.DummyContent.DummyItem;
+import shreyas.io.weld.azaro.Model.Term;
+import shreyas.io.weld.azaro.TermFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 
@@ -18,27 +18,35 @@ import java.util.List;
  */
 public class MyTermRecyclerViewAdapter extends RecyclerView.Adapter<MyTermRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private  List<Term> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyTermRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyTermRecyclerViewAdapter(List<Term> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+    }
+
+    public void setTermList(List<Term> items){
+        mValues = items;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
+                .inflate(R.layout.fragment_term, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        //holder.mIdView.setText(String.valueOf(mValues.get(position).
 
+        holder.mContentView.setText(String.valueOf(mValues.get(position).getTermId()));
+        holder.mTitleView.setText(mValues.get(position).getTermName());
+
+        Log.d("TermList",":ST :"+position + mValues.get(position).getTermStartDate());
+        Log.d("TermList",":ET :"+position + mValues.get(position).getTermEndDate());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,20 +66,26 @@ public class MyTermRecyclerViewAdapter extends RecyclerView.Adapter<MyTermRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
+        //public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView mTitleView;
+
+        public Term mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            //mIdView = (TextView) view.findViewById(R.id.term_TermId);
+            mContentView = (TextView) view.findViewById(R.id.term_Id);
+            mTitleView = (TextView) view.findViewById(R.id.term_title);
+
         }
+
 
         @Override
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";
+
         }
     }
 }

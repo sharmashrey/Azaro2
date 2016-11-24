@@ -8,6 +8,10 @@
             android:icon="@android:drawable/btn_star_big_on"
             android:title="DashBoard" />
         <item
+            android:id="@+id/nav_term_fragment"
+            android:icon="@android:drawable/ic_btn_speak_now"
+            android:title="Semester" />
+        <item
             android:id="@+id/nav_course"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Course" />

@@ -3,24 +3,19 @@ package shreyas.io.weld.azaro;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import shreyas.io.weld.azaro.dummy.DummyContent;
-import shreyas.io.weld.azaro.dummy.DummyContent.DummyItem;
-
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
+import shreyas.io.weld.azaro.Database.DBHelper;
+import shreyas.io.weld.azaro.Model.Term;
+
+/** Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * interface. */
 public class TermFragment extends Fragment {
 
     // TODO: Customize parameter argument names
@@ -28,16 +23,20 @@ public class TermFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-
+    Context currentContext;
+    MyTermRecyclerViewAdapter termAdapter;
+    DBHelper dbHelper;
+    List<Term> termList;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public TermFragment() {
-    }
+    public TermFragment() {}
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
+    //TODO :=- refresh fragment
+    // FragmentTransaction ft = getFragmentManager().beginTransaction();
+    // ft.detach(this).attach(this).commit();
+
     public static TermFragment newInstance(int columnCount) {
         TermFragment fragment = new TermFragment();
         Bundle args = new Bundle();
@@ -49,6 +48,7 @@ public class TermFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -64,26 +64,42 @@ public class TermFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyTermRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            //if (mColumnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            //} else {
+            //recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+            //}
+
+            //write code to retrieve list of Terms from database and pass that to
+
+            termList = dbHelper.getAllTerms();
+            termAdapter = new MyTermRecyclerViewAdapter(termList, mListener);
+            recyclerView.setAdapter(termAdapter);
         }
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        termList = dbHelper.getAllTerms();;
+        termAdapter.setTermList(termList);
+        termAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        currentContext = context;
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
+        dbHelper = new DBHelper(currentContext);
+
+
     }
 
     @Override
@@ -104,6 +120,9 @@ public class TermFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Term item);
     }
+
+
+
 }
