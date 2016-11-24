@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity
                             final EditText input2 = new EditText(MainActivity.this);
 
                             builderInner.setMessage(strName);
-                        builderInner.setTitle("Update Relevant Info");
+                            builderInner.setTitle("Update Relevant Info");
                             final LayoutInflater inflater = MainActivity.this.getLayoutInflater();
                             final View myView=inflater.inflate(R.layout.update_dialog_course,null);
 
@@ -256,8 +256,8 @@ public class MainActivity extends AppCompatActivity
                                     String coursename=((EditText)myView.findViewById(R.id.UpdateCourseName)).getText().toString();
 
                                     String weekday=((EditText)myView.findViewById(R.id.UpdateCourseWeekDay)).getText().toString();
-                                    long starttime=convertTimeStringToMillis(((EditText)myView.findViewById(R.id.update_in_time)).getText().toString());
-                                    long endtime=convertTimeStringToMillis(((EditText)myView.findViewById(R.id.update_in_end_time)).getText().toString());
+                                    //long starttime=convertTimeStringToMillis(((EditText)myView.findViewById(R.id.update_in_time)).getText().toString());
+                                    //long endtime=convertTimeStringToMillis(((EditText)myView.findViewById(R.id.update_in_end_time)).getText().toString());
                                     Course updatedcourse=new Course();
                          //           updatedcourse.setCourseEndTime(endtime);
                                     updatedcourse.setCourseLocation(courselocation);
@@ -269,20 +269,20 @@ public class MainActivity extends AppCompatActivity
                                 }
 
 
-                                long convertTimeStringToMillis(String iptime){
-
-                                    String[] endTimeString =  iptime.split(":");
-                                    //String endTimeString = Integer.toString(endHour)+Integer.toString(endMinute);
-                                    //long endTime = Long.parseLong(endTimeString[0]+endTimeString[1]);
-                                    Calendar cal = Calendar.getInstance();
-                                    cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(endTimeString[0]));
-                                    cal.set(Calendar.MINUTE, Integer.parseInt(endTimeString[1]));
-                                    cal.set(Calendar.SECOND, 0);
-
-                                    // obtain given time in ms
-                                    long endTime = cal.getTimeInMillis();
-                                    return endTime;
-                                }
+//                                long convertTimeStringToMillis(String iptime){
+//
+//                                    String[] endTimeString =  iptime.split(":");
+//                                    //String endTimeString = Integer.toString(endHour)+Integer.toString(endMinute);
+//                                    //long endTime = Long.parseLong(endTimeString[0]+endTimeString[1]);
+//                                    Calendar cal = Calendar.getInstance();
+//                                    cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(endTimeString[0]));
+//                                    cal.set(Calendar.MINUTE, Integer.parseInt(endTimeString[1]));
+//                                    cal.set(Calendar.SECOND, 0);
+//
+//                                    // obtain given time in ms
+//                                    long endTime = cal.getTimeInMillis();
+//                                    return endTime;
+//                                }
 
                             });
                         builderInner.show();

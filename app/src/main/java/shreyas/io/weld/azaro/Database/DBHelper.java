@@ -100,9 +100,9 @@ public class DBHelper  extends SQLiteOpenHelper {
         values.put(DBRelatedConstants.COURSE_TERMID,course.getCourseTermId());
         values.put(DBRelatedConstants.COURSE_COURSELOCATION,course.getCourseLocation());
         values.put(DBRelatedConstants.COURSE_WEEKDAY,course.getWeekDay());
-       // values.put(DBRelatedConstants.COURSE_COURSESTARTTIME,course.getCourseStartTime());
+        // values.put(DBRelatedConstants.COURSE_COURSESTARTTIME,course.getCourseStartTime());
         Log.d("Course Update", "updateCourse: location"+course.getCourseLocation());
-       // values.put(DBRelatedConstants.COURSE_COURSEENDTIME,course.getCourseEndTime());
+        // values.put(DBRelatedConstants.COURSE_COURSEENDTIME,course.getCourseEndTime());
         database.update("Courses", values, DBRelatedConstants.COURSE_ID+"=?", new String[] {Integer.toString(course.getCourseId())});
         database.close();
 
@@ -163,8 +163,8 @@ public class DBHelper  extends SQLiteOpenHelper {
                 Assignment outputResult = new Assignment();
                 outputResult.setAssignmentCourseId(resultAssignmentValues.getInt(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTCOURSEID)));
                 outputResult.setAssignmentDescription(resultAssignmentValues.getString(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTDESCRIPTION)));
-                outputResult.setAssignmentDueDate(resultAssignmentValues.getInt(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTDUEDATE)));
-                outputResult.setAssignmentDueTime(resultAssignmentValues.getInt(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTDUETIME)));
+                outputResult.setAssignmentDueDate(resultAssignmentValues.getString(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTDUEDATE)));
+                outputResult.setAssignmentDueTime(resultAssignmentValues.getString(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTDUETIME)));
                 outputResult.setAssignmentId(resultAssignmentValues.getInt(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTID)));
                 outputResult.setAssignmentName(resultAssignmentValues.getString(resultAssignmentValues.getColumnIndex(DBRelatedConstants.ASSIGNMENT_ASSIGNMENTNAME)));
                 outputTermValues.add(outputResult);
@@ -215,8 +215,8 @@ public class DBHelper  extends SQLiteOpenHelper {
         Term outputResult = new Term();
         outputResult.setTermId(singleTerm.getInt(singleTerm.getColumnIndex(DBRelatedConstants.TERM_TERMID)));
         outputResult.setTermName(singleTerm.getString(singleTerm.getColumnIndex(DBRelatedConstants.TERM_TERMNAME)));
-        outputResult.setTermStartDate(singleTerm.getInt(singleTerm.getColumnIndex(DBRelatedConstants.TERM_TERMSTARTDATE)));
-        outputResult.setTermEndDate(singleTerm.getInt(singleTerm.getColumnIndex(DBRelatedConstants.TERM_TERMENDDATE)));
+        outputResult.setTermStartDate(singleTerm.getString(singleTerm.getColumnIndex(DBRelatedConstants.TERM_TERMSTARTDATE)));
+        outputResult.setTermEndDate(singleTerm.getString(singleTerm.getColumnIndex(DBRelatedConstants.TERM_TERMENDDATE)));
 
         return  outputResult;
 
@@ -238,8 +238,8 @@ public class DBHelper  extends SQLiteOpenHelper {
                 Term outputResult = new Term();
                 outputResult.setTermId(resultTermValues.getInt(resultTermValues.getColumnIndex(DBRelatedConstants.TERM_TERMID)));
                 outputResult.setTermName(resultTermValues.getString(resultTermValues.getColumnIndex(DBRelatedConstants.TERM_TERMNAME)));
-                outputResult.setTermStartDate(resultTermValues.getInt(resultTermValues.getColumnIndex(DBRelatedConstants.TERM_TERMSTARTDATE)));
-                outputResult.setTermEndDate(resultTermValues.getInt(resultTermValues.getColumnIndex(DBRelatedConstants.TERM_TERMENDDATE)));
+                outputResult.setTermStartDate(resultTermValues.getString(resultTermValues.getColumnIndex(DBRelatedConstants.TERM_TERMSTARTDATE)));
+                outputResult.setTermEndDate(resultTermValues.getString(resultTermValues.getColumnIndex(DBRelatedConstants.TERM_TERMENDDATE)));
                 outputTermValues.add(outputResult);
             } while (resultTermValues.moveToNext());
         }
@@ -323,8 +323,8 @@ public class DBHelper  extends SQLiteOpenHelper {
                 outputResult.setCourseTermId(resultCourseValues.getInt(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_TERMID)));
                 outputResult.setCourseName(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSENAME)));
                 outputResult.setCourseLocation(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSELOCATION)));
-                outputResult.setCourseStartTime(resultCourseValues.getInt(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSESTARTTIME)));
-                outputResult.setCourseEndTime(resultCourseValues.getInt(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSEENDTIME)));
+                outputResult.setCourseStartTime(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSESTARTTIME)));
+                outputResult.setCourseEndTime(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSEENDTIME)));
                 outputTermValues.add(outputResult);
             } while (resultCourseValues.moveToNext());
         }
@@ -366,11 +366,11 @@ public class DBHelper  extends SQLiteOpenHelper {
                 Task outputResult = new Task();
                 outputResult.setTaskCourseId(resultTaskValues.getInt(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TASKID)));
                 outputResult.setTaskDescription(resultTaskValues.getString(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TASKDESCRIPTION)));
-                outputResult.setTaskDueDate(resultTaskValues.getInt(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TASKDUETIME)));
-                outputResult.setTaskDueTime(resultTaskValues.getInt(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TASKDUEDATE)));
+                outputResult.setTaskDueDate(resultTaskValues.getString(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TASKDUETIME)));
+                outputResult.setTaskDueTime(resultTaskValues.getString(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TASKDUEDATE)));
                 outputResult.setTaskId(resultTaskValues.getInt(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TASKID)));
                 outputResult.setTaskName(resultTaskValues.getString(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TASKNAME)));
-                outputResult.setTaskType(resultTaskValues.getInt(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TYPE)));
+                outputResult.setTaskType(resultTaskValues.getString(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TYPE)));
                 outputTermValues.add(outputResult);
             } while (resultTaskValues.moveToNext());
         }
@@ -393,8 +393,8 @@ public class DBHelper  extends SQLiteOpenHelper {
                 Project outputResult = new Project();
                 outputResult.setProjectCourseId(resultProjectValues.getInt(resultProjectValues.getColumnIndex(DBRelatedConstants.PROJECT_PROJECTCOURSEID)));
                 outputResult.setProjectDescription(resultProjectValues.getString(resultProjectValues.getColumnIndex(DBRelatedConstants.PROJECT_PROJECTDESCRIPTION)));
-                outputResult.setProjectDueDate(resultProjectValues.getInt(resultProjectValues.getColumnIndex(DBRelatedConstants.PROJECT_PROJECTDUEDATE)));
-                outputResult.setProjectDueTime(resultProjectValues.getInt(resultProjectValues.getColumnIndex(DBRelatedConstants.PROJECT_PROJECTDUETIME)));
+                outputResult.setProjectDueDate(resultProjectValues.getString(resultProjectValues.getColumnIndex(DBRelatedConstants.PROJECT_PROJECTDUEDATE)));
+                outputResult.setProjectDueTime(resultProjectValues.getString(resultProjectValues.getColumnIndex(DBRelatedConstants.PROJECT_PROJECTDUETIME)));
                 outputResult.setProjectId(resultProjectValues.getInt(resultProjectValues.getColumnIndex(DBRelatedConstants.PROJECT_PROJECTID)));
                 outputResult.setProjectName(resultProjectValues.getString(resultProjectValues.getColumnIndex(DBRelatedConstants.PROJECT_PROJECTNAME)));
                 outputTermValues.add(outputResult);

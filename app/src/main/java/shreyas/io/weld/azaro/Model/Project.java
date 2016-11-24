@@ -15,8 +15,8 @@ public class Project {
     private int projectCourseId;
     private String projectName;
     private String projectDescription;
-    private long projectDueDate;
-    private int projectDueTime;
+    private String projectDueDate;
+    private String projectDueTime;
     private int projectTotalPhases;
 
     public int getProjectId() {
@@ -54,20 +54,20 @@ public class Project {
         this.projectDescription = projectDescription;
     }
 
-    public long getProjectDueDate() {
+    public String getProjectDueDate() {
         return projectDueDate;
     }
 
-    public void setProjectDueDate(long projectDueDate) {
+    public void setProjectDueDate(String projectDueDate) {
         this.projectDueDate = projectDueDate;
     }
 
 
-    public int getProjectDueTime() {
+    public String getProjectDueTime() {
         return projectDueTime;
     }
 
-    public void setProjectDueTime(int projectDueTime) {
+    public void setProjectDueTime(String projectDueTime) {
         this.projectDueTime = projectDueTime;
     }
 

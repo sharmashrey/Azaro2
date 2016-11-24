@@ -156,10 +156,10 @@ public class ProjectActivity extends AppCompatActivity implements LoaderCallback
         input1.setProjectCourseId(courseList.get(courseSelectedPosition).getCourseId());
         input1.setProjectName  ( mEditProjectName.getText().toString());
         input1.setProjectDescription( mEditProjectDescription.getText().toString());
-        String time = mHour+""+mMinute;
-        String date = mYear+""+mMonth+""+mDay;
-        input1.setProjectDueTime( Integer.parseInt(time) );
-        input1.setProjectDueDate( Integer.parseInt(date) );
+        String time = String.valueOf(mHour)+":"+String.valueOf(mMinute);
+        String date = String.valueOf(mYear)+"/"+String.valueOf(mMonth)+"/"+String.valueOf(mDay);
+        input1.setProjectDueTime(time);
+        input1.setProjectDueDate(date);
         Log.d("calling ", " ");
         db.addNewProject(input1);
         finish();

@@ -168,9 +168,10 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
         newCourse.setCourseName( mEditCourseName.getText().toString());
         newCourse.setCourseLocation( mEditCourseLocationView.getText().toString());
         newCourse.setWeekDay(mEditCourseWeekDay.getText().toString());
-        String[] startTimeString =  txtTime.getText().toString().split(":");
+        //String[] startTimeString =  txtTime.getText().toString().split(":");
         //String startTimeString = Integer.toString(startHour)+Integer.toString(startMinute);
-        long startTime = Long.parseLong(startTimeString[0]+startTimeString[1]);
+        //long startTime = Long.parseLong(startTimeString[0]+startTimeString[1]);
+        String startTime = String.valueOf(startHour)+":"+String.valueOf(startMinute);
         Log.d("In Save button", "ST " + startTime);
         newCourse.setCourseStartTime(startTime);
         Log.d("In Save button", " sT " + txtTime.getText().toString());
@@ -185,9 +186,10 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
         cal.set(Calendar.SECOND, 0);*/
 
         // obtain given time in ms
-        long endTime = convertTimeStringToMillis(txtEndTime.getText().toString());
+        String endTime = String.valueOf(endHour)+":"+String.valueOf(endMinute);
+        //long endTime = convertTimeStringToMillis(txtEndTime.getText().toString());
 
-        Log.d("In Save button","Convert back to date"+convertTimeMillisToString(endTime));
+        //Log.d("In Save button","Convert back to date"+convertTimeMillisToString(endTime));
         Log.d("In Save button", "ET " + endTime);
         newCourse.setCourseEndTime(endTime);
         Log.d("In Save button", " eT " + txtEndTime.getText().toString());

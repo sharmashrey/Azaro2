@@ -14,8 +14,8 @@ public class Assignment {
     private int assignmentCourseId;
     private String assignmentName;
     private String assignmentDescription;
-    private long assignmentDueDate;
-    private int assignmentDueTime;
+    private String assignmentDueDate;
+    private String assignmentDueTime;
 
     public int getAssignmentId() {
         return assignmentId;
@@ -49,19 +49,19 @@ public class Assignment {
         this.assignmentDescription = assignmentDescription;
     }
 
-    public long getAssignmentDueDate() {
+    public String getAssignmentDueDate() {
         return assignmentDueDate;
     }
 
-    public void setAssignmentDueDate(long assignmentDueDate) {
+    public void setAssignmentDueDate(String assignmentDueDate) {
         this.assignmentDueDate = assignmentDueDate;
     }
 
-    public int getAssignmentDueTime() {
+    public String getAssignmentDueTime() {
         return assignmentDueTime;
     }
 
-    public void setAssignmentDueTime(int assignmentDueTime) {
+    public void setAssignmentDueTime(String assignmentDueTime) {
         this.assignmentDueTime = assignmentDueTime;
     }
 

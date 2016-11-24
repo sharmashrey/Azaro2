@@ -160,20 +160,22 @@ public class AddTaskActivity extends AppCompatActivity implements LoaderCallback
         newTask.setTaskName( taskName.getText().toString());
         newTask.setTaskDescription( taskDesc.getText().toString());
         newTask.setTaskCourseId(courseList.get(courseSelectedPosition).getCourseId());
-        newTask.setTaskType(Integer.parseInt(taskLoop.getText().toString()));
+        //newTask.setTaskType(Integer.parseInt(taskLoop.getText().toString()));
 
-        String[] startDateString =  txtDate.getText().toString().split("-");
+        //String[] startDateString =  txtDate.getText().toString().split("-");
         //yyyymmdd format
-        long startDate = Long.parseLong(startDateString[2]+startDateString[1] + startDateString[0]);
-        Log.d("In Save Task", "SD " + startDate);
-        newTask.setTaskDueDate(startDate);
+        String dueDate = String.valueOf(mYear)+"/"+String.valueOf(mMonth)+"/"+String.valueOf(mDay);
+        //long startDate = Long.parseLong(startDateString[2]+startDateString[1] + startDateString[0]);
+        //Log.d("In Save Task", "SD " + startDate);
+        newTask.setTaskDueDate(dueDate);
         Log.d("In Save button", " sD " + txtDate.getText().toString());
 
 
-        String[] startTimeString =  txtTime.getText().toString().split(":");
-        long startTime = Long.parseLong(startTimeString[0]+startTimeString[1]);
-        Log.d("In Save button", "ET " + startTime);
-        newTask.setTaskDueTime(startTime);
+        //String[] startTimeString =  txtTime.getText().toString().split(":");
+        //long startTime = Long.parseLong(startTimeString[0]+startTimeString[1]);
+        String dueTime = String.valueOf(mHour)+":"+String.valueOf(mMinute);
+        Log.d("In Save button", "ET " + dueTime);
+        newTask.setTaskDueTime(dueTime);
         Log.d("In Save button", " eT " + txtTime.getText().toString());
 
 

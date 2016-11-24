@@ -10,23 +10,23 @@ public class Exam {
     private int examCourseId;
     private String examName;
     private String examDescription;
-    private long examDate;
-    private long examTime;
+    private String examDate;
+    private String examTime;
 
 
-    public long getExamTime() {
+    public String getExamTime() {
         return examTime;
     }
 
-    public void setExamTime(long examTime) {
+    public void setExamTime(String examTime) {
         this.examTime = examTime;
     }
 
-    public long getExamDate() {
+    public String getExamDate() {
         return examDate;
     }
 
-    public void setExamDate(long examDate) {
+    public void setExamDate(String examDate) {
         this.examDate = examDate;
     }
 

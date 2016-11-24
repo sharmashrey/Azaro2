@@ -16,18 +16,18 @@ public class Task {
     private int taskCourseId;
     private String taskName;
     private String taskDescription;
-    private long taskDueDate;
-    private int taskType;
+    private String taskDueDate;
+    private String taskType;
 
-    public long getTaskDueTime() {
+    public String getTaskDueTime() {
         return taskDueTime;
     }
 
-    public void setTaskDueTime(long taskDueTime) {
+    public void setTaskDueTime(String taskDueTime) {
         this.taskDueTime = taskDueTime;
     }
 
-    private long taskDueTime;
+    private String taskDueTime;
 
     public int getTaskId() {
         return taskId;
@@ -61,19 +61,19 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
-    public long getTaskDueDate() {
+    public String getTaskDueDate() {
         return taskDueDate;
     }
 
-    public void setTaskDueDate(long taskDueDate) {
+    public void setTaskDueDate(String taskDueDate) {
         this.taskDueDate = taskDueDate;
     }
 
-    public int getTaskType() {
+    public String getTaskType() {
         return taskType;
     }
 
-    public void setTaskType(int taskType) {
+    public void setTaskType(String taskType) {
         this.taskType = taskType;
     }
 }

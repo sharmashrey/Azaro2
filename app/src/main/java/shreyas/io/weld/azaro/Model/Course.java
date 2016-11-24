@@ -23,8 +23,8 @@ public class Course {
     private String courseName;
     private int courseTermId;
     private String courseLocation;
-    private long courseStartTime;
-    private long courseEndTime;
+    private String courseStartTime;
+    private String courseEndTime;
     private String weekDay;
 
     public int getCourseId() {
@@ -59,19 +59,19 @@ public class Course {
         this.courseLocation = courseLocation;
     }
 
-    public long getCourseStartTime() {
+    public String getCourseStartTime() {
         return courseStartTime;
     }
 
-    public void setCourseStartTime(long courseStartTime) {
+    public void setCourseStartTime(String courseStartTime) {
         this.courseStartTime = courseStartTime;
     }
 
-    public long getCourseEndTime() {
+    public String getCourseEndTime() {
         return courseEndTime;
     }
 
-    public void setCourseEndTime(long courseEndTime) {
+    public void setCourseEndTime(String courseEndTime) {
         this.courseEndTime = courseEndTime;
     }
 
