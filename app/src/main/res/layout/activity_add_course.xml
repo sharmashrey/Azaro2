@@ -11,20 +11,20 @@
     tools:context="shreyas.io.weld.azaro.AddCourseActivity"
     android:weightSum="1">
 
-            <EditText
-                android:id="@+id/EditCourseName"
-                android:layout_height="wrap_content"
-                android:hint="@string/course_name"
-                android:inputType="textPostalAddress"
-                android:layout_width="fill_parent">
-            </EditText>
-            <EditText
-                android:id="@+id/EditCourseLocation"
-                android:layout_height="wrap_content"
-                android:hint="@string/course_location"
-                android:inputType="textPostalAddress"
-                android:layout_width="fill_parent">
-            </EditText>
+    <EditText
+        android:id="@+id/EditCourseName"
+        android:layout_height="wrap_content"
+        android:hint="@string/course_name"
+        android:inputType="textPostalAddress"
+        android:layout_width="fill_parent">
+    </EditText>
+    <AutoCompleteTextView
+        android:id="@+id/EditCourseLocation"
+        android:layout_height="wrap_content"
+        android:hint="@string/course_location"
+        android:inputType="textPostalAddress"
+        android:layout_width="fill_parent">
+    </AutoCompleteTextView>
     <EditText
         android:id="@+id/EditCourseWeekDay"
         android:layout_height="wrap_content"

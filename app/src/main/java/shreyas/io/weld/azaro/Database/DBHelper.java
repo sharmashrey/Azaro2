@@ -335,6 +335,7 @@ public class DBHelper  extends SQLiteOpenHelper {
                 outputResult.setCourseId(resultCourseValues.getInt(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_ID)));
                 outputResult.setCourseTermId(resultCourseValues.getInt(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_TERMID)));
                 outputResult.setCourseName(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSENAME)));
+                outputResult.setWeekDay(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_WEEKDAY)));
                 outputResult.setCourseLocation(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSELOCATION)));
                 outputResult.setCourseStartTime(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSESTARTTIME)));
                 outputResult.setCourseEndTime(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSEENDTIME)));

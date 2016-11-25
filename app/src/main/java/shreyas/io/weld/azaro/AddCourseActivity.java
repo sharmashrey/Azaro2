@@ -1,29 +1,29 @@
 package shreyas.io.weld.azaro;
 
 import android.annotation.TargetApi;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -31,9 +31,72 @@ import java.util.List;
 import shreyas.io.weld.azaro.Database.DBHelper;
 import shreyas.io.weld.azaro.Model.Course;
 
+
+
 /**
  * A login screen that offers login via email/password.
  */
+
+class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
+
+    ArrayList<String> resultList;
+
+    Context mContext;
+    int mResource;
+
+    PlaceAPI mPlaceAPI = new PlaceAPI();
+
+    public PlacesAutoCompleteAdapter(Context context, int resource) {
+        super(context, resource);
+
+        mContext = context;
+        mResource = resource;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getCount() {
+        // Last item will be the footer
+        return resultList.size();
+    }
+
+    @Override
+    public String getItem(int position) {
+        return resultList.get(position);
+    }
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+            @Override
+            protected Filter.FilterResults performFiltering(CharSequence constraint) {
+                FilterResults filterResults = new FilterResults();
+                if (constraint != null) {
+                    resultList = mPlaceAPI.autocomplete(constraint.toString(), mContext);
+
+                    filterResults.values = resultList;
+                    filterResults.count = resultList.size();
+                    //notifyDataSetChanged();
+                }
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                if (results != null && results.count > 0) {
+                    notifyDataSetChanged();
+                }
+                else {
+                    notifyDataSetInvalidated();
+                }
+            }
+        };
+
+        return filter;
+    }
+}
+
 public class AddCourseActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>,View.OnClickListener{
 
     private static final int REQUEST_READ_CONTACTS = 0;
@@ -47,9 +110,9 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private AutoCompleteTextView mEditCourseLocationView;
     private EditText mEditCourseName;
-    private EditText mEditCourseLocationView;
+    // private EditText mEditCourseLocationView;
     private EditText mEditCourseWeekDay;
     //private EditText txtDate;
     private EditText txtTime;
@@ -74,8 +137,12 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
         setContentView(R.layout.activity_add_course);
 
         //make message text field & button object
+
+        mEditCourseLocationView = (AutoCompleteTextView) this.findViewById(R.id.EditCourseLocation);
+        PlacesAutoCompleteAdapter paa=new PlacesAutoCompleteAdapter(this, R.layout.autocomplete_list_item);
+        mEditCourseLocationView.setAdapter(paa);
         mEditCourseName = (EditText) findViewById(R.id.EditCourseName);
-        mEditCourseLocationView = (EditText) findViewById(R.id.EditCourseLocation);
+        //mEditCourseLocationView = (EditText) findViewById(R.id.EditCourseLocation);
         mEditCourseWeekDay=(EditText) findViewById(R.id.EditCourseWeekDay);
         btnCourseSave = (Button) findViewById(R.id.save_button);
         //btn dt tm pckr
@@ -96,7 +163,7 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
         //    Extras are retrieved on the other side via:
         Intent intent = getIntent();
         String value = intent.getStringExtra("key"); //if it's a string you stored.
-      }
+    }
 
 
     @Override
@@ -168,12 +235,12 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
         newCourse.setCourseName( mEditCourseName.getText().toString());
         newCourse.setCourseLocation( mEditCourseLocationView.getText().toString());
         newCourse.setWeekDay(mEditCourseWeekDay.getText().toString());
-        //String[] startTimeString =  txtTime.getText().toString().split(":");
+        // String[] startTimeString =  txtTime.getText().toString().split(":");
         //String startTimeString = Integer.toString(startHour)+Integer.toString(startMinute);
         //long startTime = Long.parseLong(startTimeString[0]+startTimeString[1]);
-        String startTime = String.valueOf(startHour)+":"+String.valueOf(startMinute);
-        Log.d("In Save button", "ST " + startTime);
-        newCourse.setCourseStartTime(startTime);
+        //String startTime = String.valueOf(startHour)+":"+String.valueOf(startMinute);
+        Log.d("In Save button", "ST " + txtTime.getText().toString());
+        newCourse.setCourseStartTime(txtTime.getText().toString());
         Log.d("In Save button", " sT " + txtTime.getText().toString());
 
 
@@ -186,12 +253,12 @@ public class AddCourseActivity extends AppCompatActivity implements LoaderCallba
         cal.set(Calendar.SECOND, 0);*/
 
         // obtain given time in ms
-        String endTime = String.valueOf(endHour)+":"+String.valueOf(endMinute);
+        //String endTime = String.valueOf(endHour)+":"+String.valueOf(endMinute);
         //long endTime = convertTimeStringToMillis(txtEndTime.getText().toString());
 
         //Log.d("In Save button","Convert back to date"+convertTimeMillisToString(endTime));
-        Log.d("In Save button", "ET " + endTime);
-        newCourse.setCourseEndTime(endTime);
+        Log.d("In Save button", "ET " + txtEndTime.getText().toString());
+        newCourse.setCourseEndTime(txtEndTime.getText().toString());
         Log.d("In Save button", " eT " + txtEndTime.getText().toString());
 
 

@@ -5,25 +5,23 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
-import android.text.InputType;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-
-import java.util.Calendar;
 
 import shreyas.io.weld.azaro.Database.DBHelper;
 import shreyas.io.weld.azaro.Model.Assignment;
@@ -34,7 +32,7 @@ import shreyas.io.weld.azaro.Model.Term;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FirstFragment.OnFragmentInteractionListener, TermFragment.OnListFragmentInteractionListener, CourseFragment.OnListFragmentInteractionListener,
-                    TaskFragment.OnListFragmentInteractionListener, ProjectFragment.OnListFragmentInteractionListener, AssignmentFragment.OnListFragmentInteractionListener{
+        TaskFragment.OnListFragmentInteractionListener, ProjectFragment.OnListFragmentInteractionListener, AssignmentFragment.OnListFragmentInteractionListener{
 
     public int currentfragment = 0;
     // Database Helper
@@ -43,8 +41,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
+
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
+        Log.d("oooooo", "onCreate: ooooooooooooooooo");
 
         //db operations
         db = new DBHelper(getApplicationContext());
@@ -65,9 +70,9 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 //on click of floating button, start new activity
                 if(currentfragment == 1){
-                    Intent myIntent = new Intent(MainActivity.this, AddTermActivity.class);
-                    myIntent.putExtra("key", 1); //Optional parameters
-                    MainActivity.this.startActivity(myIntent);
+                   Intent myIntent = new Intent(MainActivity.this, AddTermActivity.class);
+                   myIntent.putExtra("key", 1); //Optional parameters
+                   MainActivity.this.startActivity(myIntent);
                 }else if(currentfragment == 2){
                     Intent myIntent = new Intent(MainActivity.this, AddTaskActivity.class);
                     myIntent.putExtra("key", 2); //Optional parameters
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity
                     myIntent.putExtra("key", 4); //Optional parameters
                     MainActivity.this.startActivity(myIntent);
                 }else if(currentfragment == 5){
-                    
+
                     Intent myIntent = new Intent(MainActivity.this, AddAssignmentActivity.class);
                     myIntent.putExtra("key", 5); //Optional parameters
                     MainActivity.this.startActivity(myIntent);
@@ -162,7 +167,7 @@ public class MainActivity extends AppCompatActivity
             currentfragment = 5;
 
         }
-        
+
         else if (id == R.id.nav_navigation) {
 
         }
@@ -200,79 +205,80 @@ public class MainActivity extends AppCompatActivity
         arrayAdapter.add("Delete");
 
         builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss(); }
-                });
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss(); }
+        });
 
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String strName = arrayAdapter.getItem(which);
-                        if(strName.equalsIgnoreCase("Update") ){
-                        final AlertDialog.Builder builderInner = new AlertDialog.Builder(MainActivity.this);
-                            final EditText input = new EditText(MainActivity.this);
-                            final EditText input2 = new EditText(MainActivity.this);
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String strName = arrayAdapter.getItem(which);
+                if(strName.equalsIgnoreCase("Update") ){
+                    final AlertDialog.Builder builderInner = new AlertDialog.Builder(MainActivity.this);
+                    final EditText input = new EditText(MainActivity.this);
+                    final EditText input2 = new EditText(MainActivity.this);
 
-                            builderInner.setMessage(strName);
-                            builderInner.setTitle("Update Relevant Info");
-                            final LayoutInflater inflater = MainActivity.this.getLayoutInflater();
-                            final View myView=inflater.inflate(R.layout.update_dialog_course,null);
+                    builderInner.setMessage(strName);
+                    builderInner.setTitle("Update Relevant Info");
+                    final LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+                    final View myView=inflater.inflate(R.layout.update_dialog_course,null);
 
 
-                            // Set up the Edit Text Containing Information
+                    // Set up the Edit Text Containing Information
                            /* input.setInputType(InputType.TYPE_CLASS_TEXT);
                             builderInner.setView(input);
                             input2.setInputType(InputType.TYPE_CLASS_TEXT);
                             builderInner.setView(input2);*/
-                            builderInner.setView(myView);
-                            EditText updateWeekDay=((EditText)myView.findViewById(R.id.UpdateCourseWeekDay));
-                            EditText updateCourseName= ((EditText)myView.findViewById(R.id.UpdateCourseName));
-                            EditText updateLocation=((EditText)myView.findViewById(R.id.UpdateCourseLocation));
-                            EditText updateStartTime=(((EditText)myView.findViewById(R.id.update_in_time)));
-                            EditText updateEndTime=(((EditText)myView.findViewById(R.id.update_in_end_time)));
+                    builderInner.setView(myView);
+                    EditText updateWeekDay=((EditText)myView.findViewById(R.id.UpdateCourseWeekDay));
+                    EditText updateCourseName= ((EditText)myView.findViewById(R.id.UpdateCourseName));
+                    EditText updateLocation=((EditText)myView.findViewById(R.id.UpdateCourseLocation));
+                    EditText updateStartTime=(((EditText)myView.findViewById(R.id.update_in_time)));
+                    EditText updateEndTime=(((EditText)myView.findViewById(R.id.update_in_end_time)));
 
-                     //       updateEndTime.setText(convertTimeMillisToString(item.getCourseEndTime()));
+                    updateEndTime.setText(item.getCourseStartTime());
 
-                    //        updateStartTime.setText(convertTimeMillisToString(item.getCourseStartTime() ));
-                            updateCourseName.setText(item.getCourseName());
-                            updateWeekDay.setText(item.getWeekDay());
-                            updateLocation.setText(item.getCourseLocation());
-
-
-                            final EditText input3 = new EditText(MainActivity.this);
-
-                           // EditText mEditCourseName = (EditText) findViewById(R.id.EditCourseNameDialogueBx);
-
-                            // Set up the buttons
-                        builderInner.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                m_Text = input.getText().toString();
-                                m_Text = input2.getText().toString();
-                            }
-                        });
+                    updateStartTime.setText(item.getCourseEndTime() );
+                    updateCourseName.setText(item.getCourseName());
+                    updateWeekDay.setText(item.getWeekDay());
+                    updateLocation.setText(item.getCourseLocation());
 
 
-                            builderInner.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Log.d("onclick", "onClick: "+"done");
-                                    String courselocation=((EditText)myView.findViewById(R.id.UpdateCourseLocation)).getText().toString();
-                                    String coursename=((EditText)myView.findViewById(R.id.UpdateCourseName)).getText().toString();
+                    final EditText input3 = new EditText(MainActivity.this);
 
-                                    String weekday=((EditText)myView.findViewById(R.id.UpdateCourseWeekDay)).getText().toString();
-                                    //long starttime=convertTimeStringToMillis(((EditText)myView.findViewById(R.id.update_in_time)).getText().toString());
-                                    //long endtime=convertTimeStringToMillis(((EditText)myView.findViewById(R.id.update_in_end_time)).getText().toString());
-                                    Course updatedcourse=new Course();
-                         //           updatedcourse.setCourseEndTime(endtime);
-                                    updatedcourse.setCourseLocation(courselocation);
-                                    updatedcourse.setCourseName(coursename);
-                        //            updatedcourse.setCourseStartTime(starttime);
-                                    updatedcourse.setCourseId(item.getCourseId());
-                                    db.updateCourse(updatedcourse);
+                    // EditText mEditCourseName = (EditText) findViewById(R.id.EditCourseNameDialogueBx);
 
-                                }
+                    // Set up the buttons
+                    builderInner.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            m_Text = input.getText().toString();
+                            m_Text = input2.getText().toString();
+                        }
+                    });
+
+
+                    builderInner.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.d("onclick", "onClick: "+"done");
+                            String courselocation=((EditText)myView.findViewById(R.id.UpdateCourseLocation)).getText().toString();
+                            String coursename=((EditText)myView.findViewById(R.id.UpdateCourseName)).getText().toString();
+
+                            String weekday=((EditText)myView.findViewById(R.id.UpdateCourseWeekDay)).getText().toString();
+                            String starttime=((EditText)myView.findViewById(R.id.update_in_time)).getText().toString();
+                            String endtime=(((EditText)myView.findViewById(R.id.update_in_end_time)).getText().toString());
+                            Course updatedcourse=new Course();
+                            updatedcourse.setCourseEndTime(endtime);
+                            updatedcourse.setCourseLocation(courselocation);
+                            updatedcourse.setCourseName(coursename);
+                            updatedcourse.setCourseStartTime(starttime);
+                            updatedcourse.setCourseId(item.getCourseId());
+                            updatedcourse.setWeekDay(weekday);
+                            db.updateCourse(updatedcourse);
+
+                        }
 
 
 //                                long convertTimeStringToMillis(String iptime){
@@ -290,15 +296,15 @@ public class MainActivity extends AppCompatActivity
 //                                    return endTime;
 //                                }
 
-                            });
-                        builderInner.show();
-                    }else {  // Delete selected , implement it
-                            db.deleteCourse(item);
-                        }
+                    });
+                    builderInner.show();
+                }else {  // Delete selected , implement it
+                    db.deleteCourse(item);
+                }
 
 
-                    }
-                });
+            }
+        });
         builderSingle.show();
         //for alert dialogue
 
@@ -329,17 +335,17 @@ public class MainActivity extends AppCompatActivity
         });
 
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String strName = arrayAdapter.getItem(which);
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String strName = arrayAdapter.getItem(which);
 
-                        {  // Delete selected , implement it
-                            db.deleteTerm(item);
+                {  // Delete selected , implement it
+                    db.deleteTerm(item);
 
 
-                        }
-                    }
-                });
+                }
+            }
+        });
 
         //for alert dialogue
 
@@ -569,5 +575,5 @@ public class MainActivity extends AppCompatActivity
         });
         builderSingle.show();
     }
-                        
+
 }
