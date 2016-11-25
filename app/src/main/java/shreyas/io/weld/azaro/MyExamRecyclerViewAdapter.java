@@ -30,19 +30,17 @@ public class MyExamRecyclerViewAdapter extends RecyclerView.Adapter<MyExamRecycl
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
+                .inflate(R.layout.fragment_exam, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(String.valueOf(mValues.get(position).getExamId()));
-        //holder.mContentView.setText(String.valueOf(mValues.get(position).getExamDescription()));
-        holder.mTitleView.setText(mValues.get(position).getExamName());
+        holder.mExamName.setText(String.valueOf(mValues.get(position).getExamName()));
+        holder.mExamDate.setText(String.valueOf(mValues.get(position).getExamDate()));
+        holder.mExamTime.setText(String.valueOf(mValues.get(position).getExamTime()));
 
-     //   Log.d("Courselist",":ST :"+position + mValues.get(position).getCourseStartTime());
-      //  Log.d("Courselist",":ET :"+position + mValues.get(position).getCourseEndTime());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,24 +60,23 @@ public class MyExamRecyclerViewAdapter extends RecyclerView.Adapter<MyExamRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        //public final TextView mContentView;
-        public final TextView mTitleView;
+        public final TextView mExamName;
+        public final TextView mExamDate;
+        public final TextView mExamTime;
         public Exam mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.in_exam_time);
-           // mContentView = (TextView) view.findViewById(R.id.course_Id);
-            mTitleView = (TextView) view.findViewById(R.id.course_title);
+            mExamName = (TextView) view.findViewById(R.id.EditexamName);
+            mExamDate = (TextView) view.findViewById(R.id.in_exam_due_date);
+            mExamTime = (TextView) view.findViewById(R.id.in_exam_due_time);
+
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" //+
-                   // mContentView.getText()
-                    + "'";
+            return super.toString() + " '" + "'";
         }
     }
 }

@@ -26,13 +26,14 @@ import android.widget.EditText;
 import shreyas.io.weld.azaro.Database.DBHelper;
 import shreyas.io.weld.azaro.Model.Assignment;
 import shreyas.io.weld.azaro.Model.Course;
+import shreyas.io.weld.azaro.Model.Exam;
 import shreyas.io.weld.azaro.Model.Project;
 import shreyas.io.weld.azaro.Model.Task;
 import shreyas.io.weld.azaro.Model.Term;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FirstFragment.OnFragmentInteractionListener, TermFragment.OnListFragmentInteractionListener, CourseFragment.OnListFragmentInteractionListener,
-        TaskFragment.OnListFragmentInteractionListener, ProjectFragment.OnListFragmentInteractionListener, AssignmentFragment.OnListFragmentInteractionListener{
+        TaskFragment.OnListFragmentInteractionListener, ProjectFragment.OnListFragmentInteractionListener, AssignmentFragment.OnListFragmentInteractionListener,ExamFragment.OnListFragmentInteractionListener{
 
     public int currentfragment = 0;
     // Database Helper
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
 
         setContentView(R.layout.activity_main);
-        Log.d("oooooo", "onCreate: ooooooooooooooooo");
+        //Log.d("oooooo", "onCreate: ooooooooooooooooo");
 
         //db operations
         db = new DBHelper(getApplicationContext());
@@ -90,6 +91,11 @@ public class MainActivity extends AppCompatActivity
 
                     Intent myIntent = new Intent(MainActivity.this, AddAssignmentActivity.class);
                     myIntent.putExtra("key", 5); //Optional parameters
+                    MainActivity.this.startActivity(myIntent);
+                } else if(currentfragment == 6){
+
+                    Intent myIntent = new Intent(MainActivity.this, AddExamActivity.class);
+                    myIntent.putExtra("key", 6); //Optional parameters
                     MainActivity.this.startActivity(myIntent);
                 }
             }
@@ -166,7 +172,11 @@ public class MainActivity extends AppCompatActivity
             fragment = AssignmentFragment.newInstance(5);
             currentfragment = 5;
 
-        }
+        }else if (id == R.id.nav_exam_fragment) {
+        fragment = ExamFragment.newInstance(6);
+        currentfragment = 6;
+
+    }
 
         else if (id == R.id.nav_navigation) {
 
@@ -429,6 +439,85 @@ public class MainActivity extends AppCompatActivity
         });
         builderSingle.show();
     }
+
+
+    @Override
+    public void onListFragmentInteraction(final Exam item) {
+
+        //first show an alert dialog to edit/delete. on delete click call delete method. on edit click
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
+        builderSingle.setIcon(R.drawable.ic_speaker_dark);
+        //builderSingle.setTitle("Edit Project "+ item.getProjectName());
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.dialog_project_layout);
+
+        arrayAdapter.add("Add Project Phase");
+        arrayAdapter.add("Update");
+        arrayAdapter.add("Delete");
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss(); }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String strName = arrayAdapter.getItem(which);
+                if(strName.equalsIgnoreCase("Update") ){
+                    final AlertDialog.Builder builderInner = new AlertDialog.Builder(MainActivity.this);
+                    final EditText input = new EditText(MainActivity.this);
+                    final EditText input2 = new EditText(MainActivity.this);
+
+                    builderInner.setMessage(strName);
+                    builderInner.setTitle("Update Relevant Info");
+
+
+                    // Set up the Edit Text Containing Information
+                    input.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builderInner.setView(input);
+                    input2.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builderInner.setView(input2);
+
+                    final EditText input3 = new EditText(MainActivity.this);
+
+                    // EditText mEditCourseName = (EditText) findViewById(R.id.EditCourseNameDialogueBx);
+
+                    // Set up the buttons
+                    builderInner.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            m_Text = input.getText().toString();
+                            m_Text = input2.getText().toString();
+                        }
+                    });
+
+                    builderInner.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(
+                                DialogInterface dialog,
+                                int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builderInner.show();
+                }
+                else if(strName.equalsIgnoreCase("Add Project Phase")){  // Delete selected , implement it
+
+
+
+
+                }
+                else if(strName.equalsIgnoreCase("Delete")){  // Delete selected , implement it
+                    db.deleteExams(item);
+                }
+            }
+        });
+        builderSingle.show();
+    }
+
 
     @Override
     public void onListFragmentInteraction(final Project item) {

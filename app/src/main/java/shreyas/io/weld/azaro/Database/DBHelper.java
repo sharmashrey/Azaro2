@@ -18,6 +18,7 @@ package shreyas.io.weld.azaro.Database;
 
         import shreyas.io.weld.azaro.Model.Assignment;
         import shreyas.io.weld.azaro.Model.Course;
+        import shreyas.io.weld.azaro.Model.Exam;
         import shreyas.io.weld.azaro.Model.Project;
         import shreyas.io.weld.azaro.Model.Task;
         import shreyas.io.weld.azaro.Model.Term;
@@ -27,6 +28,7 @@ package shreyas.io.weld.azaro.Database;
 //WILL have to check
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.CREATE_TABLE_COURSES;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_COURSES;
+        import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_EXAMS;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_PROJECTS;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_TASKS;
 
@@ -57,6 +59,9 @@ public class DBHelper  extends SQLiteOpenHelper {
         db.execSQL(DBRelatedConstants.CREATE_TABLE_PROJECTS);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_PROJECT_PHASES);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_PROJECT_PHASE_ATTACHMENTS);
+        db.execSQL(DBRelatedConstants.CREATE_TABLE_EXAMS);
+
+
 
     }
 
@@ -72,6 +77,8 @@ public class DBHelper  extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DBRelatedConstants.TABLE_PROJECTS);
         db.execSQL("DROP TABLE IF EXISTS " + DBRelatedConstants.TABLE_PROJECT_PHASES);
         db.execSQL("DROP TABLE IF EXISTS " + DBRelatedConstants.TABLE_PROJECT_PHASES_ATTACHMENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + DBRelatedConstants.TABLE_EXAMS);
+
         // create new tables
         onCreate(db);
     }
@@ -126,6 +133,25 @@ public class DBHelper  extends SQLiteOpenHelper {
         return newAssignmentRow;
     }
 
+    public long addNewExam(Exam newExam) {
+
+        Log.d("In DB add new exam ", " ");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBRelatedConstants.EXAM_COURSEID, newExam.getExamCourseId());
+        values.put(DBRelatedConstants.EXAM_NAME, newExam.getExamName());
+        values.put(DBRelatedConstants.EXAM_DESCRIPTION, newExam.getExamDescription());
+        values.put(DBRelatedConstants.EXAM_DUEDATE, newExam.getExamDate());
+        values.put(DBRelatedConstants.EXAM_DUETIME, newExam.getExamTime());
+
+        // insert row
+        long newExamRow = db.insert(TABLE_EXAMS, null, values);
+        Log.d(" New Row iD", "New row inserted  in exam table" + newExamRow);
+        Log.d("addNewCourse","assgn id "+ newExam.getExamId());
+        return newExamRow;
+    }
+
     public long addNewProject(Project newProject) {
 
         Log.d("In DB add new project ", " ");
@@ -171,7 +197,32 @@ public class DBHelper  extends SQLiteOpenHelper {
         
         return outputTermValues;
     }
-    
+
+    public List<Exam> getAllExam() {
+        List<Exam> outputTermValues = new ArrayList<Exam>();
+
+        String selectQuery = "SELECT  * FROM " + DBRelatedConstants.TABLE_EXAMS;
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor resultExamValues = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (resultExamValues.moveToFirst()) {
+            do {
+                Exam outputResult = new Exam();
+                outputResult.setExamId(resultExamValues.getInt(resultExamValues.getColumnIndex(DBRelatedConstants.EXAM_ID)));
+                outputResult.setExamCourseId(resultExamValues.getInt(resultExamValues.getColumnIndex(DBRelatedConstants.EXAM_COURSEID)));
+                outputResult.setExamName(resultExamValues.getString(resultExamValues.getColumnIndex(DBRelatedConstants.EXAM_NAME)));
+                outputResult.setExamDescription(resultExamValues.getString(resultExamValues.getColumnIndex(DBRelatedConstants.EXAM_DESCRIPTION)));
+                outputResult.setExamDate(resultExamValues.getString(resultExamValues.getColumnIndex(DBRelatedConstants.EXAM_DUEDATE)));
+                outputResult.setExamTime(resultExamValues.getString(resultExamValues.getColumnIndex(DBRelatedConstants.EXAM_DUETIME)));
+                outputTermValues.add(outputResult);
+            } while (resultExamValues.moveToNext());
+        }
+
+        return outputTermValues;
+    }
     
     public void closeDB() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -279,6 +330,18 @@ public class DBHelper  extends SQLiteOpenHelper {
         //use sqlite db.delete method to delete row having that course id, use this in where
     }
 
+
+    public int deleteExams(Exam term){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int termId = term.getExamId();
+        String whereclause = DBRelatedConstants.EXAM_ID+" = "+String.valueOf(termId);
+
+        return db.delete(DBRelatedConstants.TABLE_EXAMS, whereclause, null);
+        //Get courseId from above course object
+
+        //use sqlite db.delete method to delete row having that course id, use this in where
+    }
+
     public int deleteCourse(Course course){
         SQLiteDatabase db = this.getWritableDatabase();
         int courseId = course.getCourseId();
@@ -343,6 +406,9 @@ public class DBHelper  extends SQLiteOpenHelper {
 
         return outputTermValues;
     }
+
+
+
 
     public List<Course> getAllCoursesToday(String day){
         List<Course> outputValues = new ArrayList<Course>();

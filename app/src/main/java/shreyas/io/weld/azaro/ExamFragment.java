@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import shreyas.io.weld.azaro.Database.DBHelper;
 import shreyas.io.weld.azaro.Model.Exam;
 
 /**
@@ -58,18 +59,21 @@ public class ExamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_exam_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_exam, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
+            //if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
+            //} else {
+            //    recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+            //}
          //   recyclerView.setAdapter(new MyExamRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
+            DBHelper dbhelper = new DBHelper(context);
+            recyclerView.setAdapter(new MyExamRecyclerViewAdapter(dbhelper.getAllExam(), mListener));
         }
         return view;
     }
@@ -84,6 +88,7 @@ public class ExamFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
+       // dbHelper = new DBHelper(context);
     }
 
     @Override

@@ -19,6 +19,16 @@ public class DBRelatedConstants {
     public static final String TABLE_PROJECTS = "Projects";
     public static final String TABLE_PROJECT_PHASES = "Project_Phases";
     public static final String TABLE_PROJECT_PHASES_ATTACHMENTS = "Project_Phase_Attachments";
+    public static final String TABLE_EXAMS = "Exams";
+
+    // Coulms for Exam table
+    public static final String EXAM_ID = "assignmment_id";
+    public static final String EXAM_COURSEID = "assignment_course_id";
+    public static final String EXAM_NAME = "assignment_name";
+    public static final String EXAM_DESCRIPTION = "assignment_description";
+    public static final String EXAM_DUEDATE = "assignment_due_date";
+    public static final String EXAM_DUETIME = "assignment_due_time";
+
 
     // Columns for Terms table
     public static final String TERM_TERMID = "term_id";
@@ -186,4 +196,18 @@ public class DBRelatedConstants {
             + "FOREIGN KEY( " + PROJECTPHASESATTACHMENT_PROJECTID +") REFERENCES " + TABLE_PROJECTS + "(" + PROJECT_PROJECTID +"), "
             + "FOREIGN KEY( " + PROJECTPHASESATTACHMENT_POJECTPHASEID +") REFERENCES " + TABLE_PROJECT_PHASES + "(" + PROJECTPHASES_PROJECTPHASEID +")"
             + ")";
+
+
+    // Task table create statement
+    public static final String CREATE_TABLE_EXAMS = "CREATE TABLE " + TABLE_EXAMS + "( "
+            + EXAM_ID + " INTEGER PRIMARY KEY, "
+            + EXAM_COURSEID + " INTEGER, "
+            + EXAM_NAME + " TEXT, "
+            + EXAM_DESCRIPTION + " TEXT, "
+            + EXAM_DUEDATE + " TEXT, "
+            + EXAM_DUETIME + " TEXT,"
+            + "FOREIGN KEY( " + EXAM_COURSEID +") REFERENCES " + TABLE_COURSES + "(" + COURSE_ID +")"
+            + ")";
+
 }
+
