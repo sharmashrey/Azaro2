@@ -51,7 +51,6 @@ public class DBHelper  extends SQLiteOpenHelper {
         db.execSQL(DBRelatedConstants.CREATE_TABLE_TERMS);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_COURSES);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_TASKS);
-        Log.d("on create", "onCreate: "+CREATE_TABLE_COURSES);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_TASK_ATTACHMENTS);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_ASSIGNMENTS);
         db.execSQL(DBRelatedConstants.CREATE_TABLE_ASSIGNMENT_ATTACHMENTS);
@@ -65,7 +64,7 @@ public class DBHelper  extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // on upgrade drop older tables
         db.execSQL("DROP TABLE IF EXISTS " + DBRelatedConstants.TABLE_TERMS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSES);
+        db.execSQL("DROP TABLE IF EXISTS " + DBRelatedConstants.TABLE_COURSES);
         db.execSQL("DROP TABLE IF EXISTS " + DBRelatedConstants.TABLE_TASKS);
         db.execSQL("DROP TABLE IF EXISTS " + DBRelatedConstants.TABLE_TASK_ATTACHMENTS);
         db.execSQL("DROP TABLE IF EXISTS " + DBRelatedConstants.TABLE_ASSIGNMENTS);
@@ -100,10 +99,9 @@ public class DBHelper  extends SQLiteOpenHelper {
         values.put(DBRelatedConstants.COURSE_TERMID,course.getCourseTermId());
         values.put(DBRelatedConstants.COURSE_COURSELOCATION,course.getCourseLocation());
         values.put(DBRelatedConstants.COURSE_WEEKDAY,course.getWeekDay());
-        // values.put(DBRelatedConstants.COURSE_COURSESTARTTIME,course.getCourseStartTime());
-        Log.d("Course Update", "updateCourse: location"+course.getCourseLocation());
-        // values.put(DBRelatedConstants.COURSE_COURSEENDTIME,course.getCourseEndTime());
-        database.update("Courses", values, DBRelatedConstants.COURSE_ID+"=?", new String[] {Integer.toString(course.getCourseId())});
+        values.put(DBRelatedConstants.COURSE_COURSESTARTTIME,course.getCourseStartTime());
+        values.put(DBRelatedConstants.COURSE_COURSEENDTIME,course.getCourseEndTime());
+        database.update(DBRelatedConstants.TABLE_COURSES, values, DBRelatedConstants.COURSE_ID+"=?", new String[] {Integer.toString(course.getCourseId())});
         database.close();
 
     }
@@ -344,6 +342,34 @@ public class DBHelper  extends SQLiteOpenHelper {
         }
 
         return outputTermValues;
+    }
+
+    public List<Course> getAllCoursesToday(String day){
+        List<Course> outputValues = new ArrayList<Course>();
+
+        String selectQuery = "SELECT * FROM "+TABLE_COURSES+ " WHERE "+DBRelatedConstants.COURSE_WEEKDAY+" LIKE '%"+day+"%'";
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor resultCourseValues = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (resultCourseValues.moveToFirst()) {
+            do {
+                Course outputResult = new Course();
+                outputResult.setCourseId(resultCourseValues.getInt(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_ID)));
+                outputResult.setCourseTermId(resultCourseValues.getInt(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_TERMID)));
+                outputResult.setCourseName(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSENAME)));
+                outputResult.setCourseLocation(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSELOCATION)));
+                outputResult.setCourseStartTime(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSESTARTTIME)));
+                outputResult.setCourseEndTime(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_COURSEENDTIME)));
+                outputResult.setWeekDay(resultCourseValues.getString(resultCourseValues.getColumnIndex(DBRelatedConstants.COURSE_WEEKDAY)));
+                outputValues.add(outputResult);
+            } while (resultCourseValues.moveToNext());
+        }
+
+        return outputValues;
     }
 
     public void addNewTask(Task newTask) {
