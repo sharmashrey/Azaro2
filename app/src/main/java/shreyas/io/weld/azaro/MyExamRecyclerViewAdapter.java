@@ -13,7 +13,7 @@ import shreyas.io.weld.azaro.Model.Exam;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
@@ -38,7 +38,7 @@ public class MyExamRecyclerViewAdapter extends RecyclerView.Adapter<MyExamRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(String.valueOf(mValues.get(position).getExamId()));
-        holder.mContentView.setText(String.valueOf(mValues.get(position).getExamDescription()));
+        //holder.mContentView.setText(String.valueOf(mValues.get(position).getExamDescription()));
         holder.mTitleView.setText(mValues.get(position).getExamName());
 
      //   Log.d("Courselist",":ST :"+position + mValues.get(position).getCourseStartTime());
@@ -63,7 +63,7 @@ public class MyExamRecyclerViewAdapter extends RecyclerView.Adapter<MyExamRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
-        public final TextView mContentView;
+        //public final TextView mContentView;
         public final TextView mTitleView;
         public Exam mItem;
 
@@ -71,13 +71,15 @@ public class MyExamRecyclerViewAdapter extends RecyclerView.Adapter<MyExamRecycl
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.in_exam_time);
-            mContentView = (TextView) view.findViewById(R.id.course_Id);
+           // mContentView = (TextView) view.findViewById(R.id.course_Id);
             mTitleView = (TextView) view.findViewById(R.id.course_title);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" //+
+                   // mContentView.getText()
+                    + "'";
         }
     }
 }

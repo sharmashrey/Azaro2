@@ -11,7 +11,7 @@ import shreyas.io.weld.azaro.CourseFragment.OnListFragmentInteractionListener;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
@@ -39,9 +39,13 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(String.valueOf(mValues.get(position).getCourseId()));
-        holder.mContentView.setText(String.valueOf(mValues.get(position).getCourseTermId()));
+        //holder.mIdView.setText(String.valueOf(mValues.get(position).getCourseId()));
+        //holder.mContentView.setText(String.valueOf(mValues.get(position).getCourseTermId()));
         holder.mTitleView.setText(mValues.get(position).getCourseName());
+        holder.mCouseDay.setText(mValues.get(position).getWeekDay());
+        holder.mCourseTime.setText(mValues.get(position).getCourseStartTime()
+        +" to "+ mValues.get(position).getCourseEndTime());
+
 
         Log.d("Courselist",":ST :"+position + mValues.get(position).getCourseStartTime());
         Log.d("Courselist",":ET :"+position + mValues.get(position).getCourseEndTime());
@@ -64,26 +68,31 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        //public final TextView mIdView;
+        //public final TextView mContentView;
+        public final TextView mCouseDay;
+        public final TextView mCourseTime;
         public final TextView mTitleView;
+
 
         public Course mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.course_TermId);
-            mContentView = (TextView) view.findViewById(R.id.course_Id);
+            //mIdView = (TextView) view.findViewById(R.id.course_TermId);
+            //mContentView = (TextView) view.findViewById(R.id.course_Id);
             mTitleView = (TextView) view.findViewById(R.id.course_title);
+            mCouseDay = (TextView) view.findViewById(R.id.courseday) ;
+            mCourseTime = (TextView) view.findViewById(R.id.coursetime);
 
         }
 
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-
+            //return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mItem.getCourseId() + "'";
         }
     }
 }

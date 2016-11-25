@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/boxbackground"
     android:orientation="vertical">
 
     <!-- new layout  -->
@@ -38,9 +40,5 @@
         android:padding="2dp"
         android:textSize="16sp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/black"/>
 
 </LinearLayout>
