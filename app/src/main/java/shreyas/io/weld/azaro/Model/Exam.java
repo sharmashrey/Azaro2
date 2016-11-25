@@ -14,6 +14,18 @@ public class Exam {
     private String examTime;
 
 
+
+    private String examCourseName;
+
+
+    public String getExamCourseName() {
+        return examCourseName;
+    }
+
+    public void setExamCourseName(String examCourseName) {
+        this.examCourseName = examCourseName;
+    }
+
     public String getExamTime() {
         return examTime;
     }

@@ -21,7 +21,7 @@
         android:padding="5dp" />
 
     <TextView
-        android:id="@+id/task_course_id"
+        android:id="@+id/task_course_name"
         android:layout_below="@id/task_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/task_description"
+        android:id="@+id/task_date"
         android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true"

@@ -13,11 +13,21 @@ public class Project {
 
     private int projectId;
     private int projectCourseId;
+    private String projectCourseName;
     private String projectName;
     private String projectDescription;
     private String projectDueDate;
     private String projectDueTime;
     private int projectTotalPhases;
+
+
+    public String getProjectCourseName() {
+        return projectCourseName;
+    }
+
+    public void setProjectCourseName(String projectCourseName) {
+        this.projectCourseName = projectCourseName;
+    }
 
     public int getProjectId() {
         return projectId;

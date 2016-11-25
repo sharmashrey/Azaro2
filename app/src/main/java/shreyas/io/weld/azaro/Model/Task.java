@@ -19,6 +19,9 @@ public class Task {
     private String taskDueDate;
     private String taskType;
 
+
+
+    private String taskCourseName;
     public String getTaskDueTime() {
         return taskDueTime;
     }
@@ -75,5 +78,13 @@ public class Task {
 
     public void setTaskType(String taskType) {
         this.taskType = taskType;
+    }
+
+    public String getTaskCourseName() {
+        return taskCourseName;
+    }
+
+    public void setTaskCourseName(String taskCourseName) {
+        this.taskCourseName = taskCourseName;
     }
 }

@@ -29,9 +29,9 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     @Override
     public void onBindViewHolder(final TaskViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(String.valueOf(mValues.get(position).getTaskId()));
-        holder.mContentView.setText(String.valueOf(mValues.get(position).getTaskCourseId()));
-        holder.mTitleView.setText(mValues.get(position).getTaskName());
+        holder.mTaskName.setText(String.valueOf(mValues.get(position).getTaskName()));
+        holder.mTaskCourseName.setText(String.valueOf(mValues.get(position).getTaskCourseName()));
+        holder.mTaskDueDate.setText(mValues.get(position).getTaskDueDate());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,23 +51,23 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
 
     public class TaskViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public final TextView mTitleView;
+        public final TextView mTaskName;
+        public final TextView mTaskCourseName;
+        public final TextView mTaskDueDate;
         public Task mItem;
 
         public TaskViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.task_course_id);
-            mContentView = (TextView) view.findViewById(R.id.task_description);
-            mTitleView = (TextView) view.findViewById(R.id.task_name);
+            mTaskName = (TextView) view.findViewById(R.id.task_name);
+            mTaskCourseName = (TextView) view.findViewById(R.id.task_course_name);
+            mTaskDueDate = (TextView) view.findViewById(R.id.task_date);
 
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mTaskName.getText() + "'";
         }
     }
 }

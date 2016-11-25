@@ -31,6 +31,7 @@ package shreyas.io.weld.azaro.Database;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_EXAMS;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_PROJECTS;
         import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TABLE_TASKS;
+        import static shreyas.io.weld.azaro.Database.DBRelatedConstants.TASK_TASKCOURSEID;
 
 /**
  * This class will help to in database related activities
@@ -451,7 +452,7 @@ public class DBHelper  extends SQLiteOpenHelper {
 
 
         // insert row
-        long newTaskRow = db.insert(TABLE_TASKS, null, values);
+        long newTaskRow = db.insert(DBRelatedConstants.TABLE_TASKS, null, values);
         Log.d(" New Row iD", "New row inserted  in task table : " + newTaskRow);
 
     }
@@ -460,7 +461,9 @@ public class DBHelper  extends SQLiteOpenHelper {
     public List<Task> getAllTasks() {
         List<Task> outputTermValues = new ArrayList<Task>();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_TASKS;
+        String selectQuery = "SELECT  * FROM " + DBRelatedConstants.TABLE_TASKS+","+
+                DBRelatedConstants.TABLE_COURSES +" WHERE "+DBRelatedConstants.TABLE_TASKS+"."+DBRelatedConstants.TASK_TASKCOURSEID
+                +" = "+DBRelatedConstants.TABLE_COURSES+"."+DBRelatedConstants.COURSE_ID;
         Log.d("get all task", selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -477,6 +480,7 @@ public class DBHelper  extends SQLiteOpenHelper {
                 outputResult.setTaskId(resultTaskValues.getInt(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TASKID)));
                 outputResult.setTaskName(resultTaskValues.getString(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TASKNAME)));
                 outputResult.setTaskType(resultTaskValues.getString(resultTaskValues.getColumnIndex(DBRelatedConstants.TASK_TYPE)));
+                outputResult.setTaskCourseName(resultTaskValues.getString(resultTaskValues.getColumnIndex(DBRelatedConstants.COURSE_COURSENAME)));
                 outputTermValues.add(outputResult);
             } while (resultTaskValues.moveToNext());
         }
